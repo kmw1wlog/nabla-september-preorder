@@ -50,6 +50,57 @@ button:disabled { cursor: default; }
 .trial-apply:hover { background: #1c1c1c; }
 .trial-kakao { color: #181600; background: #fee500; }
 .trial-kakao:hover { background: #f6dc00; }
+.trial-form-side { min-height: 100dvh; padding: 34px 52px; display: flex; align-items: center; justify-content: center; overflow-y: auto; background: #fff; }
+.trial-form-wrap { width: 100%; max-width: 520px; padding-block: 10px; }
+.trial-form-heading { margin-bottom: 23px; }
+.trial-form-heading > div { display: flex; align-items: center; justify-content: space-between; margin-bottom: 9px; }
+.trial-form-heading > div span, .trial-form-heading > div b { padding: 5px 10px; border-radius: 999px; font-size: 10.5px; }
+.trial-form-heading > div span { color: #1557f5; background: #eef4ff; font-weight: 700; letter-spacing: .05em; }
+.trial-form-heading > div b { color: #7a5d25; background: #faf5eb; }
+.trial-form-heading h2 { margin: 0 0 5px; font-size: 26px; font-weight: 900; letter-spacing: -.7px; }
+.trial-form-heading p { margin: 0; color: #7a808a; font-size: 12px; }
+.trial-application-form { padding: 21px 22px; border: 1px solid #e4e7ec; border-radius: 14px; box-shadow: 0 8px 28px rgba(16,24,40,.07); }
+.trial-application-form .field { gap: 6px; margin-bottom: 12px; }
+.trial-application-form .field > span { display: flex; align-items: center; }
+.trial-application-form .field > span small { margin-left: auto; color: #9aa0a9; font-size: 10px; font-weight: 400; }
+.trial-application-form input { height: 43px; font-size: 12px; }
+.trial-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.trial-students > div { position: relative; }
+.trial-students input { padding-right: 110px; }
+.trial-students strong { position: absolute; top: 50%; right: 7px; transform: translateY(-50%); min-width: 87px; padding: 7px 9px; text-align: center; color: #1557f5; background: #eef4ff; border-radius: 6px; font-size: 11px; }
+.trial-address-search { display: grid; grid-template-columns: minmax(0,1fr) 104px; gap: 8px; }
+.trial-address-search button { display: flex; align-items: center; justify-content: center; gap: 5px; color: white; background: #111827; border: 0; border-radius: 8px; font-size: 11.5px; font-weight: 700; }
+.trial-address-search input { background: #fafbfc; }
+.address-row { margin: -4px 0 12px; grid-template-columns: 125px minmax(0,1fr); }
+.trial-request textarea { min-height: 54px; max-height: 90px; padding: 10px 12px; font-size: 11.5px; }
+.part1-preview { margin: 2px 0 12px; padding: 11px 13px; display: flex; align-items: center; justify-content: space-between; gap: 16px; border-left: 3px solid #c8a870; border-radius: 7px; background: linear-gradient(90deg,#faf5eb,#fffdfa); }
+.part1-preview > div { display: flex; flex-direction: column; gap: 3px; }
+.part1-preview span { color: #a07b3d; font-size: 9.5px; font-weight: 600; }
+.part1-preview b { color: #242830; font-size: 12px; }
+.part1-preview p { margin: 0; color: #777d87; text-align: right; font-size: 9.5px; line-height: 1.5; }
+.trial-consent { display: flex; align-items: flex-start; gap: 7px; color: #5f6570; font-size: 10px; line-height: 1.45; cursor: pointer; }
+.trial-consent input { appearance: none; flex: 0 0 auto; width: 17px; height: 17px; padding: 0; border-radius: 3px; }
+.trial-consent input:checked { background: #1557f5; border-color: #1557f5; box-shadow: inset 0 0 0 4px white; }
+.trial-consent u { color: #586eab; }
+.trial-error { margin: 9px 0 0; padding: 8px 10px; color: #b84545; background: #fff5f5; border-radius: 6px; font-size: 10.5px; }
+.trial-submit { width: 100%; height: 48px; margin-top: 13px; display: flex; align-items: center; justify-content: center; gap: 7px; color: white; background: #0e0e0e; border: 0; border-radius: 7px; font-size: 13px; font-weight: 700; }
+.trial-submit:hover { background: #1c1c1c; }
+.trial-success { width: 100%; max-width: 460px; text-align: center; }
+.success-icon { width: 58px; height: 58px; margin: 0 auto 14px; display: grid; place-items: center; color: white; background: #1557f5; border-radius: 50%; box-shadow: 0 9px 24px rgba(21,87,245,.22); }
+.success-kicker { color: #1557f5; font: 700 10px Arial,sans-serif; letter-spacing: .16em; }
+.trial-success > h2 { margin: 9px 0 11px; font-size: 27px; line-height: 1.35; letter-spacing: -.8px; }
+.trial-success > p { margin: 0 0 20px; color: #717782; font-size: 13px; line-height: 1.7; }
+.trial-success dl { margin: 0 0 16px; padding: 6px 16px; text-align: left; border: 1px solid #e4e7ec; border-radius: 10px; background: #fafbfc; }
+.trial-success dl > div { padding: 10px 0; display: grid; grid-template-columns: 75px 1fr; border-bottom: 1px dashed #e1e3e7; font-size: 11.5px; }
+.trial-success dl > div:last-child { border: 0; }
+.trial-success dt { color: #999fa8; }
+.trial-success dd { margin: 0; color: #30343b; font-weight: 600; }
+.part1-conversion { margin: 0 0 15px; padding: 17px; text-align: left; color: white; background: radial-gradient(circle at 90% 0,rgba(79,110,200,.22),transparent 45%),#10131b; border: 1px solid rgba(200,168,112,.4); border-radius: 11px; }
+.part1-conversion span { color: #c8a870; font-size: 10px; font-weight: 700; letter-spacing: .08em; }
+.part1-conversion h3 { margin: 5px 0 6px; font-size: 16px; }
+.part1-conversion p { margin: 0; color: rgba(255,255,255,.58); font-size: 10.5px; line-height: 1.6; }
+.trial-success .trial-apply { min-height: 49px; }
+.trial-secondary { margin-top: 10px; color: #858b95; background: transparent; border: 0; font-size: 11px; text-decoration: underline; }
 
 .app-shell { display: grid; grid-template-columns: 420px minmax(0, 1fr); height: 100dvh; overflow: hidden; background: #f7f8fa; }
 
@@ -327,11 +378,15 @@ input:focus, textarea:focus { border-color: var(--violet); box-shadow: 0 0 0 3px
 
 @media (max-width: 767px) {
   .trial-page { grid-template-columns: 1fr; }
-  .trial-hero, .trial-closed { min-height: auto; padding: 28px; }
+  .trial-hero, .trial-closed, .trial-form-side { min-height: auto; padding: 28px; }
   .trial-hero { min-height: 660px; }
   .trial-top-logo img { height: 66px; }
   .trial-copy h1 { font-size: 26px; }
   .trial-closed { padding-block: 64px; overflow-y: visible; }
+  .trial-form-side { padding-block: 38px; overflow-y: visible; }
+  .trial-form-grid { grid-template-columns: 1fr; gap: 0; }
+  .address-row { grid-template-columns: 105px minmax(0,1fr); gap: 8px; }
+  .trial-application-form { padding-inline: 16px; }
 }
 
 @media (max-width: 620px) {

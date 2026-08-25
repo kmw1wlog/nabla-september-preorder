@@ -6,6 +6,7 @@ import {
   ReceiptText, Search, WalletCards, X,
 } from 'lucide-react'
 import { formatWon, getOrderTotals, PARTS, PRICE_TIERS } from './order.js'
+import { createTrialApplication, loadLatestTrialApplication, saveTrialApplication, validateTrialApplication } from './trial.js'
 import './styles.css'
 
 const Field = ({ label, required, className = '', ...props }) => (
@@ -216,6 +217,39 @@ function StatusModal({ onClose }) {
 }
 
 function TrialLanding({ onApply }) {
+  const [form, setForm] = useState({
+    director: '', phone: '', academy: '', email: '', students: '',
+    postcode: '', address: '', detail: '', request: '', agreed: false,
+  })
+  const [submitted, setSubmitted] = useState(null)
+  const [error, setError] = useState('')
+  const update = (key) => (event) => setForm((old) => ({ ...old, [key]: event.target.value }))
+
+  const searchAddress = () => {
+    if (!window.daum?.Postcode) {
+      setError('주소 검색 서비스를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.')
+      return
+    }
+    new window.daum.Postcode({
+      oncomplete: (data) => {
+        const address = data.userSelectedType === 'R' ? data.roadAddress : data.jibunAddress
+        setForm((old) => ({ ...old, postcode: data.zonecode, address }))
+        setError('')
+      },
+    }).open()
+  }
+
+  const submit = (event) => {
+    event.preventDefault()
+    const message = validateTrialApplication(form)
+    if (message) return setError(message)
+    const application = createTrialApplication(form)
+    saveTrialApplication(application)
+    setSubmitted(application)
+    setError('')
+    requestAnimationFrame(() => document.querySelector('.trial-form-side')?.scrollTo({ top: 0 }))
+  }
+
   return <main className="trial-page">
     <section className="trial-hero">
       <div className="trial-circles" aria-hidden="true">
@@ -229,28 +263,64 @@ function TrialLanding({ onApply }) {
       <div className="trial-copy">
         <p className="trial-eyebrow">FREE TRIAL · 0회차 무료 체험</p>
         <h1>2027 수능 대비<br /><em>CAMPUSKIT 0회차</em><br />무료로 받아보세요</h1>
-        <p className="trial-description"><strong>0회차 체험본</strong>을 무료로 보내드립니다.<br />선택 27번 포함 4점 전체 문제지 + 해설지 + 강사자료로 구성되어<br />받는 즉시 수업에 활용하실 수 있습니다.</p>
+        <p className="trial-description"><strong>0회차 체험본</strong>을 무료로 보내드립니다.<br />선택 27번 포함 4점 전체 문제지 + 해설지 + 모의고사로 구성되어<br />받는 즉시 수업에 활용하실 수 있습니다.</p>
         <p className="trial-limit">⚡ 선착순 3,000부 한정　·　학원 원장님 전용</p>
       </div>
       <div className="trial-bottom-logo"><img src="https://freetrial.qulup.co.kr/images/mathbox-logo-bottom.png" alt="QULUP" /></div>
     </section>
-    <section className="trial-closed">
-      <div className="trial-closed-inner">
-        <div className="trial-closed-copy">
-          <h2>신청이 마감되었습니다.<br />문의는 카카오톡으로 부탁드립니다.</h2>
-          <p>선착순 3,000부가 모두 소진되어 신청이 마감되었습니다.<br />많은 관심을 가져주셔서 진심으로 감사드립니다.</p>
+    <section className="trial-form-side">
+      {submitted ? <div className="trial-success">
+        <div className="success-icon"><Check size={28} /></div>
+        <span className="success-kicker">FREE TRIAL APPLICATION</span>
+        <h2>0회차 무료배송 신청이<br />접수되었습니다.</h2>
+        <p>{submitted.academy}의 고3 학생 <b>{submitted.students}명</b>을 위한<br /><b>{submitted.copies}부</b>가 학원 주소로 무료배송됩니다.</p>
+        <dl>
+          <div><dt>접수번호</dt><dd>{submitted.applicationId}</dd></div>
+          <div><dt>받는 분</dt><dd>{submitted.director} 원장님</dd></div>
+          <div><dt>배송지</dt><dd>({submitted.postcode}) {submitted.address} {submitted.detail}</dd></div>
+        </dl>
+        <div className="part1-conversion">
+          <span>0회차 다음 단계</span>
+          <h3>PART 1 · 1~8회차 모의고사</h3>
+          <p>체험 수업의 흐름을 그대로 이어가세요.<br />학생 수 구간별 할인과 묶음 배송이 자동 적용됩니다.</p>
         </div>
-        <button className="trial-apply" onClick={onApply}>Campuskit 도입 신청하기 <ArrowRight size={17} /></button>
-        <a className="trial-kakao" href="https://open.kakao.com/o/sKOMMb9h" target="_blank" rel="noreferrer"><MessageCircle size={17} fill="currentColor" /> 카카오톡으로 문의하기</a>
-      </div>
+        <button className="trial-apply" onClick={() => onApply(submitted)}>PART 1 모의고사 도입하기 <ArrowRight size={17} /></button>
+        <button className="trial-secondary" onClick={() => setSubmitted(null)}>신청 내용 다시 보기</button>
+      </div> : <div className="trial-form-wrap">
+        <div className="trial-form-heading">
+          <div><span>학원 원장님 전용</span><b>0원 · 무료배송</b></div>
+          <h2>0회차 무료 체험 신청</h2>
+          <p>고3 학생 수만큼 체험본을 학원으로 보내드립니다.</p>
+        </div>
+        <form className="trial-application-form" onSubmit={submit}>
+          <div className="trial-form-grid">
+            <Field label="원장님" required placeholder="홍길동" value={form.director} onChange={update('director')} />
+            <Field label="연락처" required placeholder="010-0000-0000" value={form.phone} onChange={update('phone')} />
+          </div>
+          <Field label="학원명" required placeholder="퀄럽수학학원" value={form.academy} onChange={update('academy')} />
+          <Field label="이메일" required type="email" placeholder="name@example.com" value={form.email} onChange={update('email')} />
+          <label className="field trial-students"><span>고3 학생 수 <b>*</b><small>신청 부수와 동일</small></span><div><input type="number" min="1" max="300" placeholder="예: 25" value={form.students} onChange={update('students')} /><strong>{Number(form.students) > 0 ? `${form.students}부 무료` : '0부'}</strong></div></label>
+          <label className="field"><span>배송지 <b>*</b><small>학원 주소로 무료배송</small></span><div className="trial-address-search"><input readOnly placeholder="주소 검색 버튼을 눌러주세요" value={form.address} /><button type="button" onClick={searchAddress}><MapPin size={15} /> 주소 검색</button></div></label>
+          <div className="trial-form-grid address-row"><input readOnly placeholder="우편번호" value={form.postcode} /><input placeholder="상세 주소 (동, 호수)" value={form.detail} onChange={update('detail')} /></div>
+          <label className="field trial-request"><span>요청사항 <small>선택</small></span><textarea placeholder="배송 관련 요청사항을 입력해 주세요." value={form.request} onChange={update('request')} /></label>
+          <div className="part1-preview"><div><span>체험 후 바로 이어지는 과정</span><b>PART 1 · 1~8회차</b></div><p>0회차 수업 후 정규 모의고사를<br />간편하게 도입할 수 있습니다.</p></div>
+          <label className="trial-consent"><input type="checkbox" checked={form.agreed} onChange={(event) => setForm((old) => ({ ...old, agreed: event.target.checked }))} /><span>무료 체험 배송을 위한 개인정보 수집·이용에 동의합니다. <u>자세히</u></span></label>
+          {error && <p className="trial-error">{error}</p>}
+          <button className="trial-submit" type="submit">0회차 무료배송 신청하기 <ArrowRight size={17} /></button>
+        </form>
+      </div>}
     </section>
   </main>
 }
 
 function App() {
-  const [form, setForm] = useState({ director: '', phone: '', academy: '', email: '', address: '', postcode: '', detail: '' })
-  const [students, setStudents] = useState('')
-  const [selectedParts, setSelectedParts] = useState([])
+  const orderPrefill = new URLSearchParams(window.location.search).get('from') === 'trial' ? loadLatestTrialApplication() : null
+  const [form, setForm] = useState(() => orderPrefill ? {
+    director: orderPrefill.director, phone: orderPrefill.phone, academy: orderPrefill.academy,
+    email: orderPrefill.email, address: orderPrefill.address, postcode: orderPrefill.postcode, detail: orderPrefill.detail,
+  } : { director: '', phone: '', academy: '', email: '', address: '', postcode: '', detail: '' })
+  const [students, setStudents] = useState(() => orderPrefill ? String(orderPrefill.students) : '')
+  const [selectedParts, setSelectedParts] = useState(() => orderPrefill ? [1] : [])
   const [paymentType, setPaymentType] = useState('')
   const [method, setMethod] = useState('')
   const [request, setRequest] = useState('')
@@ -299,8 +369,8 @@ function RootApp() {
     return () => window.removeEventListener('popstate', handlePopState)
   }, [path])
 
-  const openOrder = () => {
-    window.history.pushState({}, '', '/order')
+  const openOrder = (application) => {
+    window.history.pushState({}, '', application ? '/order?from=trial' : '/order')
     setPath('/order')
     window.scrollTo(0, 0)
   }
