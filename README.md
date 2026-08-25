@@ -1,5 +1,13 @@
 # SLATIQ MOCK Academy
 
+## Landing concept previews
+
+- `/?concept=edition` — 패키지와 한정판 에디션을 강조한 표지 중심안
+- `/?concept=proof` — 단계형 해설의 품질을 강조한 해설 중심안
+- `/?concept=system` — 문제지·해설·패키지를 함께 보여주는 구성 중심안(기본)
+
+이 저장소는 `slatiq-mock-academy`의 `slatiq-mock-v1-baseline-20260825` 백업 이후 분기한 비교용 작업본입니다.
+
 학원·강사용 SLATIQ MOCK 무료 체험 및 단체 주문 페이지입니다.
 
 ## 보존 기준
