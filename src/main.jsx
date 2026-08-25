@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import {
   ArrowRight, Box, Building2, CalendarDays, Check, CheckCircle2, ChevronRight,
@@ -215,6 +215,38 @@ function StatusModal({ onClose }) {
   return <div className="modal-backdrop" onMouseDown={onClose}><div className="modal status-modal" onMouseDown={(e) => e.stopPropagation()}><div className="modal-title"><h2>내 주문 상태 확인</h2><button onClick={onClose}><X /></button></div><div className="status-body"><ClipboardList size={40} /><h3>주문번호 또는 연락처로 확인하세요</h3><input placeholder="주문번호 입력" /><input placeholder="원장님 연락처 입력" /><button>주문 조회</button></div></div></div>
 }
 
+function TrialLanding({ onApply }) {
+  return <main className="trial-page">
+    <section className="trial-hero">
+      <div className="trial-circles" aria-hidden="true">
+        <i className="trial-circle tc-1" /><i className="trial-circle tc-2" />
+        <i className="trial-circle tc-3" /><i className="trial-circle tc-4" />
+        <i className="trial-circle tc-5" /><i className="trial-circle tc-6" />
+      </div>
+      <div className="trial-top-logo">
+        <img src="https://freetrial.qulup.co.kr/images/mathbox-logo.png" alt="MATHBOX" />
+      </div>
+      <div className="trial-copy">
+        <p className="trial-eyebrow">FREE TRIAL · 0회차 무료 체험</p>
+        <h1>2027 수능 대비<br /><em>CAMPUSKIT 0회차</em><br />무료로 받아보세요</h1>
+        <p className="trial-description"><strong>0회차 체험본</strong>을 무료로 보내드립니다.<br />선택 27번 포함 4점 전체 문제지 + 해설지 + 강사자료로 구성되어<br />받는 즉시 수업에 활용하실 수 있습니다.</p>
+        <p className="trial-limit">⚡ 선착순 3,000부 한정　·　학원 원장님 전용</p>
+      </div>
+      <div className="trial-bottom-logo"><img src="https://freetrial.qulup.co.kr/images/mathbox-logo-bottom.png" alt="QULUP" /></div>
+    </section>
+    <section className="trial-closed">
+      <div className="trial-closed-inner">
+        <div className="trial-closed-copy">
+          <h2>신청이 마감되었습니다.<br />문의는 카카오톡으로 부탁드립니다.</h2>
+          <p>선착순 3,000부가 모두 소진되어 신청이 마감되었습니다.<br />많은 관심을 가져주셔서 진심으로 감사드립니다.</p>
+        </div>
+        <button className="trial-apply" onClick={onApply}>Campuskit 도입 신청하기 <ArrowRight size={17} /></button>
+        <a className="trial-kakao" href="https://open.kakao.com/o/sKOMMb9h" target="_blank" rel="noreferrer"><MessageCircle size={17} fill="currentColor" /> 카카오톡으로 문의하기</a>
+      </div>
+    </section>
+  </main>
+}
+
 function App() {
   const [form, setForm] = useState({ director: '', phone: '', academy: '', email: '', address: '', postcode: '', detail: '' })
   const [students, setStudents] = useState('')
@@ -257,4 +289,23 @@ function App() {
   </div>
 }
 
-createRoot(document.getElementById('root')).render(<App />)
+function RootApp() {
+  const [path, setPath] = useState(window.location.pathname)
+
+  useEffect(() => {
+    const handlePopState = () => setPath(window.location.pathname)
+    window.addEventListener('popstate', handlePopState)
+    document.title = path === '/order' ? 'MATHBOX CAMPUS KIT 주문, 결제' : 'CAMPUS KIT 0회차 무료 체험'
+    return () => window.removeEventListener('popstate', handlePopState)
+  }, [path])
+
+  const openOrder = () => {
+    window.history.pushState({}, '', '/order')
+    setPath('/order')
+    window.scrollTo(0, 0)
+  }
+
+  return path === '/order' ? <App /> : <TrialLanding onApply={openOrder} />
+}
+
+createRoot(document.getElementById('root')).render(<RootApp />)
