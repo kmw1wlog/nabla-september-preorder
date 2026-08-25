@@ -172,30 +172,7 @@ function StatusModal({ onClose }) {
   return <div className="modal-backdrop" onMouseDown={onClose}><div className="modal status-modal" onMouseDown={(e) => e.stopPropagation()}><div className="modal-title"><h2>내 주문 상태 확인</h2><button onClick={onClose}><X /></button></div><div className="status-body"><ClipboardList size={40} /><h3>주문번호 또는 연락처로 확인하세요</h3><input placeholder="주문번호 입력" /><input placeholder="원장님 연락처 입력" /><button>주문 조회</button></div></div></div>
 }
 
-const CONCEPTS = {
-  edition: {
-    tab: 'A · EDITION', eyebrow: 'LIMITED ACADEMY EDITION · 00',
-    title: <>수업 전에 먼저 펼쳐지는<br /><em>한 회의 설계.</em></>,
-    description: <><strong>문제지·단계형 해설·강사용 자료</strong>를 한 패키지로 구성했습니다.<br />SLATIQ MOCK 00으로 정규 SECTION의 수업 흐름을 먼저 확인해 보세요.</>,
-    visual: 'edition', caption: 'ORACLE 00 · PRELUDE', captionSub: '학원 체험용 패키지',
-  },
-  proof: {
-    tab: 'B · PROOF', eyebrow: 'THE SOLUTION IS THE PRODUCT',
-    title: <>정답이 아니라<br /><em>풀이의 구조를 제공합니다.</em></>,
-    description: <>조건 해석에서 구조 발견, 계산 정리까지.<br /><strong>학생이 다시 따라갈 수 있는 단계형 해설</strong>을 실제 지면으로 확인하세요.</>,
-    visual: 'proof', caption: 'STEP-BY-STEP SOLUTION', captionSub: '수업에 바로 쓰는 해설 설계',
-  },
-  system: {
-    tab: 'C · SYSTEM', eyebrow: 'ONE MOCK · THREE LAYERS',
-    title: <>시험지에서 수업까지<br /><em>한 번에 이어집니다.</em></>,
-    description: <><strong>실전 문제지, 단계형 해설, 패키지 표지.</strong><br />한 회분의 경험을 세 개의 지면으로 먼저 살펴보세요.</>,
-    visual: 'system', caption: 'PAPER · SOLUTION · PACKAGE', captionSub: 'SLATIQ MOCK 00 체험 구성',
-  },
-}
-
-function ConceptVisual({ type }) {
-  if (type === 'edition') return <div className="concept-visual edition-visual"><img src="/assets/oracle-00-cover.webp" alt="ORACLE 00 포장 표지" /></div>
-  if (type === 'proof') return <div className="concept-visual proof-visual"><img src="/assets/solution-sample.jpg" alt="SLATIQ 단계형 해설 예시" /></div>
+function ConceptVisual() {
   return <div className="concept-visual system-visual">
     <img className="layer cover-layer" src="/assets/oracle-00-cover.webp" alt="ORACLE 00 포장 표지" />
     <img className="layer paper-layer" src="/assets/paper-sample.webp" alt="SLATIQ 모의고사 예시" />
@@ -204,9 +181,6 @@ function ConceptVisual({ type }) {
 }
 
 function TrialLanding({ onApply }) {
-  const initialConcept = new URLSearchParams(window.location.search).get('concept')
-  const [conceptKey, setConceptKey] = useState(CONCEPTS[initialConcept] ? initialConcept : 'system')
-  const concept = CONCEPTS[conceptKey]
   const [form, setForm] = useState({
     director: '', phone: '', academy: '', email: '', students: '',
     postcode: '', address: '', detail: '', request: '', agreed: false,
@@ -240,14 +214,7 @@ function TrialLanding({ onApply }) {
     requestAnimationFrame(() => document.querySelector('.trial-form-side')?.scrollTo({ top: 0 }))
   }
 
-  const selectConcept = (key) => {
-    setConceptKey(key)
-    const url = new URL(window.location.href)
-    url.searchParams.set('concept', key)
-    window.history.replaceState({}, '', url)
-  }
-
-  return <main className={`trial-page concept-${conceptKey}`}>
+  return <main className="trial-page concept-system">
     <section className="trial-hero">
       <div className="trial-circles" aria-hidden="true">
         <i className="trial-circle tc-1" /><i className="trial-circle tc-2" />
@@ -257,16 +224,11 @@ function TrialLanding({ onApply }) {
       <div className="trial-top-logo">
         <img src="/assets/slatiq-logo.png" alt="SLATIQ" />
       </div>
-      <nav className="concept-switcher" aria-label="첫 화면 시안 선택">
-        {Object.entries(CONCEPTS).map(([key, item]) => <button key={key} className={conceptKey === key ? 'active' : ''} onClick={() => selectConcept(key)}>{item.tab}</button>)}
-      </nav>
-      <ConceptVisual type={concept.visual} />
+      <ConceptVisual />
       <div className="trial-copy">
-        <p className="trial-eyebrow">{concept.eyebrow}</p>
-        <h1>{concept.title}</h1>
-        <p className="trial-description">{concept.description}</p>
-        <div className="visual-caption"><b>{concept.caption}</b><span>{concept.captionSub}</span></div>
-        <p className="trial-limit">1,800부 한정 · 8.21–8.30 · 학원 원장님 대상</p>
+        <h1>2027 수능 대비<br /><em>SLATIQ MOCK 0회차</em><br />무료로 받아보세요</h1>
+        <p className="trial-description"><strong>0회차 학원 체험본</strong>을 무료로 보내드립니다.<br />선택 27번을 포함한 4점 전체 문제지 + 해설지 + 강사자료로 구성되어<br />받으신 뒤 바로 수업에 활용하실 수 있습니다.</p>
+        <p className="trial-limit">⚡ 선착순 1,800부 한정　·　학원 원장님 전용　·　08.21–08.30</p>
       </div>
     </section>
     <section className="trial-form-side">
