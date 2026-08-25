@@ -2,15 +2,15 @@
 
 :root {
   font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  color: #1a1d24;
-  background: #f7f8fa;
+  color: #142033;
+  background: #f5f7fa;
   font-synthesis: none;
-  --ink: #111827;
-  --muted: #9298a3;
-  --line: #e4e7ec;
-  --violet: #6366f1;
-  --violet-soft: #eef0ff;
-  --gold: #c8a870;
+  --ink: #0b1b33;
+  --muted: #758094;
+  --line: #dfe5ee;
+  --violet: #146cff;
+  --violet-soft: #edf4ff;
+  --gold: #c5a66a;
 }
 
 * { box-sizing: border-box; }
@@ -416,4 +416,140 @@ input:focus, textarea:focus { border-color: var(--violet); box-shadow: 0 0 0 3px
   .bank-table > div { grid-template-columns: 90px 1fr; }
   .bank-table .payer, .notify-options { grid-template-columns: 1fr; }
   .bank-receipt { padding-inline: 18px; }
+}
+
+/* SLATIQ MOCK brand layer */
+.trial-hero {
+  background:
+    radial-gradient(circle at 78% 18%, rgba(20,108,255,.22), transparent 34%),
+    radial-gradient(circle at 8% 88%, rgba(197,166,106,.09), transparent 28%),
+    linear-gradient(145deg,#061225,#0b1f3a 58%,#071426);
+}
+.tc-6 { border-color: rgba(20,108,255,.28); }
+.trial-top-logo,
+.trial-bottom-logo {
+  width: max-content;
+  padding: 9px 13px;
+  border: 1px solid rgba(255,255,255,.28);
+  border-radius: 11px;
+  background: rgba(255,255,255,.94);
+  box-shadow: 0 12px 40px rgba(0,0,0,.2);
+}
+.trial-top-logo img,
+.trial-bottom-logo img {
+  width: auto;
+  height: 38px;
+  opacity: 1;
+}
+.trial-eyebrow { color: rgba(255,255,255,.64); }
+.trial-copy h1 em { color: #65b7ff; font-weight: 350; }
+.trial-limit {
+  width: max-content;
+  padding: 8px 11px;
+  color: #e4c995;
+  border: 1px solid rgba(197,166,106,.25);
+  border-radius: 999px;
+  background: rgba(197,166,106,.08);
+}
+.trial-form-heading > div span,
+.trial-students strong,
+.success-kicker { color: #146cff; background: #edf4ff; }
+.trial-consent input:checked,
+.success-icon { border-color: #146cff; background: #146cff; }
+.trial-submit,
+.trial-apply { background: linear-gradient(135deg,#0b2f69,#146cff); }
+.trial-submit:hover,
+.trial-apply:hover { background: linear-gradient(135deg,#0a2859,#0d5de5); }
+.part1-preview {
+  border-left-color: var(--gold);
+  background: linear-gradient(90deg,#fbf6ec,#fff);
+}
+.part1-conversion {
+  background: radial-gradient(circle at 90% 0,rgba(20,108,255,.28),transparent 45%),#071426;
+}
+.app-shell { background: #f5f7fa; }
+.sidebar {
+  background:
+    radial-gradient(ellipse at 112% 0,rgba(20,108,255,.22),transparent 46%),
+    radial-gradient(ellipse at -12% 88%,rgba(197,166,106,.08),transparent 38%),
+    linear-gradient(180deg,#081a31,#061225);
+}
+.grid-deco {
+  background-image:
+    linear-gradient(rgba(255,255,255,.014) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.014) 1px,transparent 1px);
+}
+.slatiq-logo {
+  width: max-content;
+  min-height: 44px;
+  margin-bottom: 26px;
+  padding: 8px 11px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 10px;
+  background: rgba(255,255,255,.95);
+  box-shadow: 0 10px 32px rgba(0,0,0,.16);
+}
+.slatiq-logo img { width: 160px; height: auto; }
+.slatiq-logo > strong {
+  padding-left: 10px;
+  color: #0b1b33;
+  border-left: 1px solid #dce3ed;
+  font-size: 12px;
+  letter-spacing: .18em;
+}
+.slatiq-logo.footer-logo { min-height: auto; margin-bottom: 12px; padding: 6px 9px; }
+.slatiq-logo.footer-logo img { width: 116px; }
+.summary-title > span {
+  color: #d9bd88;
+  border-color: rgba(197,166,106,.34);
+  background: rgba(197,166,106,.08);
+}
+.dark-card h3::before { background: #2f8dff; }
+.part-lines > div.active {
+  background: rgba(20,108,255,.09);
+  border-left-color: #2f8dff;
+}
+.part-lines > div.active > b {
+  color: #8fc7ff;
+  border-color: rgba(47,141,255,.32);
+  background: rgba(20,108,255,.12);
+}
+.total-card {
+  background: linear-gradient(135deg,rgba(20,108,255,.2),rgba(20,108,255,.045));
+  border-color: rgba(197,166,106,.28);
+}
+.page-header > div:last-child span { color: #0e5ed8; background: #edf4ff; }
+.page-header > div:last-child b,
+.step-title > span,
+.address-search button,
+.status-body button { background: #0b1b33; }
+.tier-current { color: #19467f; background: #edf6ff; border-color: #d2e7ff; }
+.price-table > div.active,
+.part-select button.selected,
+.payment-types button.selected,
+.methods button.selected { background: var(--violet-soft); }
+.pay-button,
+.modal-actions .primary { background: linear-gradient(135deg,#0b4fc4,#146cff); }
+.pay-button:hover { background: linear-gradient(135deg,#093f9d,#0d5de5); }
+.receipt-head > span,
+.bank-title > span { background: #0b2f69; }
+.bank-table p > b:first-child { background: #0b2f69; }
+.notify-options {
+  --notice-blue: #1c63c7;
+}
+.notify-options button { color: #142033; background: #edf4ff; border-color: var(--notice-blue); }
+.notify-options svg { color: var(--notice-blue); }
+.next-guide { color: #284d7d; background: #eff5fd; border-color: #d9e6f7; }
+
+@media (max-width: 900px) {
+  .slatiq-logo { margin-bottom: 18px; }
+}
+
+@media (max-width: 767px) {
+  .trial-top-logo img,
+  .trial-bottom-logo img { height: 31px; }
+  .trial-limit { width: auto; line-height: 1.45; }
 }

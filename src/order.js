@@ -1,16 +1,16 @@
-export const PARTS = [
-  { id: 1, label: 'PART 1', rounds: '1~8회차', orderBy: '5월 20일까지 주문', ship: '5월 25일', shortShip: '5/25' },
-  { id: 2, label: 'PART 2', rounds: '9~16회차', orderBy: '6월 13일까지 주문', ship: '6월 23일', shortShip: '6/23' },
-  { id: 3, label: 'PART 3', rounds: '17~24회차', orderBy: '7월 11일까지 주문', ship: '7월 21일', shortShip: '7/21' },
+export const SECTIONS = [
+  { id: 1, label: 'SECTION 1', rounds: '1~8회차', orderBy: '9월 9일까지 주문', ship: '9월 14일', shortShip: '9/14' },
+  { id: 2, label: 'SECTION 2', rounds: '9~16회차', orderBy: '9월 30일까지 주문', ship: '10월 5일', shortShip: '10/5' },
+  { id: 3, label: 'SECTION 3', rounds: '17~24회차', orderBy: '10월 21일까지 주문', ship: '10월 26일', shortShip: '10/26' },
 ]
 
 export const PRICE_TIERS = [
-  { min: 1, max: 10, label: '1~10명 이하', discount: '—', unit: 6000 },
-  { min: 11, max: 20, label: '11~20명', discount: '10%', unit: 5400 },
-  { min: 21, max: 30, label: '21~30명', discount: '15%', unit: 5100 },
-  { min: 31, max: 40, label: '31~40명', discount: '20%', unit: 4800 },
-  { min: 41, max: 50, label: '41~50명', discount: '25%', unit: 4500 },
-  { min: 51, max: Infinity, label: '51명 이상', discount: '30%', unit: 4200 },
+  { min: 1, max: 10, label: '1~10명 이하', discount: '—', unit: 5500 },
+  { min: 11, max: 20, label: '11~20명', discount: '10%', unit: 4950 },
+  { min: 21, max: 30, label: '21~30명', discount: '15%', unit: 4675 },
+  { min: 31, max: 40, label: '31~40명', discount: '20%', unit: 4400 },
+  { min: 41, max: 50, label: '41~50명', discount: '25%', unit: 4125 },
+  { min: 51, max: Infinity, label: '51명 이상', discount: '30%', unit: 3850 },
 ]
 
 export function getUnitPrice(students) {

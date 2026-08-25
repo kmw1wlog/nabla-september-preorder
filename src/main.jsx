@@ -5,7 +5,7 @@ import {
   ClipboardList, Copy, CreditCard, Lightbulb, Mail, MapPin, MessageCircle,
   ReceiptText, Search, WalletCards, X,
 } from 'lucide-react'
-import { formatWon, getOrderTotals, PARTS, PRICE_TIERS } from './order.js'
+import { formatWon, getOrderTotals, SECTIONS, PRICE_TIERS } from './order.js'
 import { createTrialApplication, loadLatestTrialApplication, saveTrialApplication, validateTrialApplication } from './trial.js'
 import './styles.css'
 
@@ -25,9 +25,9 @@ const StepHeader = ({ number, title, note }) => (
 
 function Logo({ footer = false }) {
   return (
-    <div className={footer ? 'qulup-logo' : 'mathbox-logo'} aria-label={footer ? 'QULUP' : 'MATHBOX CAMPUS KIT'}>
-      <span className="logo-mark"><i /><i /><i /></span>
-      {footer ? <strong>QULUP</strong> : <><span className="logo-divider" /><strong>CAMPUS <em>KIT</em></strong></>}
+    <div className={footer ? 'slatiq-logo footer-logo' : 'slatiq-logo'} aria-label="SLATIQ MOCK">
+      <img src="/assets/slatiq-logo.png" alt="SLATIQ" />
+      {!footer && <strong>MOCK</strong>}
     </div>
   )
 }
@@ -43,24 +43,24 @@ function Sidebar({ totals, selectedParts, paymentType, onStatus }) {
           <h3>결제 금액</h3>
           <div className="pay-row"><span>적용 단가</span><strong>{totals.unit ? `${formatWon(totals.unit)}원` : '—'}</strong></div>
           <div className="pay-row"><span>고3 학생 수</span><strong>{totals.count ? `${totals.count}명` : '—'}</strong></div>
-          <div className="pay-row"><span>선택 PART</span><strong>{totals.parts ? `${totals.parts}개` : '—'}</strong></div>
+          <div className="pay-row"><span>선택 SECTION</span><strong>{totals.parts ? `${totals.parts}개` : '—'}</strong></div>
           <div className="pay-row"><span>총 회차</span><strong>{totals.rounds ? `${totals.rounds}회` : '—'}</strong></div>
           <div className="pay-row divided"><span>공급가액</span><strong>{formatWon(totals.supply)}원</strong></div>
           <div className="pay-row"><span>배송비</span><strong>{totals.shipping ? `${formatWon(totals.shipping)}원` : totals.parts ? '무료' : '—'}</strong></div>
         </section>
         <section className="dark-card deadlines">
-          <h3><CalendarDays size={14} /> PART별 주문 마감일</h3>
+          <h3><CalendarDays size={14} /> SECTION별 주문 마감일</h3>
           <div className="part-lines">
-            {PARTS.map((part) => <div key={part.id} className={selectedParts.includes(part.id) ? 'active' : ''}>
+            {SECTIONS.map((part) => <div key={part.id} className={selectedParts.includes(part.id) ? 'active' : ''}>
               <b>{part.label}</b><span><strong>{part.orderBy}</strong><small>{part.rounds} · {part.ship} 일괄 배송</small></span>
             </div>)}
           </div>
-          <p className="deadline-note">⚠ 각 PART별 마감일 이후 주문은 문의 바랍니다</p>
+          <p className="deadline-note">⚠ 각 SECTION별 마감일 이후 주문은 별도 문의 바랍니다</p>
         </section>
         <section className="total-card">
           <div><span>결제 예정 금액</span><small>{paymentType ? paymentType === 'director' ? '원장결제' : '개별결제' : '미선택'}</small></div>
           <strong>{formatWon(totals.total)}<em>원</em></strong>
-          <p>{totals.parts ? `선택 ${totals.parts}개 PART 전체 금액` : 'PART와 결제 방식을 선택하면 최종 금액이 계산됩니다.'}</p>
+          <p>{totals.parts ? `선택 ${totals.parts}개 SECTION 전체 금액` : 'SECTION과 결제 방식을 선택하면 최종 금액이 계산됩니다.'}</p>
         </section>
         <button className="status-link" onClick={onStatus}><span>📋</span><div><small>ORDER STATUS</small><b>내 주문 상태 확인하기</b></div><ChevronRight size={18} /></button>
         <footer>
@@ -99,7 +99,7 @@ function AddressSection({ form, setForm }) {
     <div className="shipping-info">
       <div><span>배송 방식</span><p>택배 · 학원 주소 직배송</p></div>
       <div><span>배송비</span><p>10부 이하 <b>1회 5,000원</b> · <b>11부 이상 무료</b><small>제주·도서산간 +5,000원 (배송 1회당 10,000원)</small></p></div>
-      <div><span>배송일</span><p>PART별 <b>일괄 출고일</b>에 맞춰 발송<small>PART 1 → 5/25 · PART 2 → 6/23 · PART 3 → 7/21</small></p></div>
+      <div><span>배송일</span><p>SECTION별 <b>일괄 출고일</b>에 맞춰 발송<small>SECTION 1 → 9/14 · SECTION 2 → 10/5 · SECTION 3 → 10/26</small></p></div>
     </div>
   </section>
 }
@@ -119,13 +119,13 @@ function OrderSection({ students, setStudents, selectedParts, setSelectedParts, 
         <div className="price-table"><h3>학생 수별 단가표</h3>{PRICE_TIERS.map((row) => <div key={row.label} className={tier?.label === row.label ? 'active' : ''}><span>{row.label}</span><em>{row.discount}</em><b>{formatWon(row.unit)}원{row.max === Infinity ? '~' : ''}</b></div>)}</div>
       </div>
       <div className="parts-column">
-        <h3>PART 선택 <b>*</b> <span>1 → 2 → 3 순서 · 추가 할인 적용</span></h3>
-        <div className="part-select">{PARTS.map((part) => <button key={part.id} disabled={part.id > 1 && !selectedParts.includes(part.id - 1)} className={selectedParts.includes(part.id) ? 'selected' : ''} onClick={() => togglePart(part.id)}>
+        <h3>SECTION 선택 <b>*</b> <span>1 → 2 → 3 순서 · 추가 할인 적용</span></h3>
+        <div className="part-select">{SECTIONS.map((part) => <button key={part.id} disabled={part.id > 1 && !selectedParts.includes(part.id - 1)} className={selectedParts.includes(part.id) ? 'selected' : ''} onClick={() => togglePart(part.id)}>
           <b>{part.label}</b><strong>{part.rounds}</strong><small>{part.ship} 발송</small>{selectedParts.includes(part.id) && <Check size={16} />}
         </button>)}</div>
-        <div className="discount-tip"><Lightbulb size={18} /><p><b>PART 1+2 또는 2+3 일괄 구매 시 5%, PART 1+2+3 전체 일괄 구매 시 10%</b><small>추가 할인 (원장 직접 결제 한정)</small></p></div>
-        <div className="selection-summary"><h4>선택 요약</h4><div><span>선택 PART<strong>{totals.parts}<small>개</small></strong></span><span>총 회차<strong>{totals.rounds}<small>회</small></strong></span><span>배송 횟수<strong>{totals.parts}<small>회</small></strong></span></div>
-          {totals.parts ? <p>📦 예상 출고일: {selectedParts.map((id) => `${PARTS[id - 1].label} (${PARTS[id - 1].ship} 출고)`).join(' · ')}</p> : <p>PART를 선택하면 상세 스케줄이 표시됩니다.</p>}
+        <div className="discount-tip"><Lightbulb size={18} /><p><b>SECTION 1+2 또는 2+3 일괄 구매 시 5%, SECTION 1+2+3 전체 일괄 구매 시 10%</b><small>추가 할인 (원장 직접 결제 한정)</small></p></div>
+        <div className="selection-summary"><h4>선택 요약</h4><div><span>선택 SECTION<strong>{totals.parts}<small>개</small></strong></span><span>총 회차<strong>{totals.rounds}<small>회</small></strong></span><span>배송 횟수<strong>{totals.parts}<small>회</small></strong></span></div>
+          {totals.parts ? <p>📦 예상 출고일: {selectedParts.map((id) => `${SECTIONS[id - 1].label} (${SECTIONS[id - 1].ship} 출고)`).join(' · ')}</p> : <p>SECTION을 선택하면 상세 스케줄이 표시됩니다.</p>}
         </div>
       </div>
     </div>
@@ -161,7 +161,7 @@ function InvoiceModal({ initial, onClose, onSave }) {
   const update = (key) => (event) => setData((old) => ({ ...old, [key]: event.target.value }))
   return <div className="modal-backdrop" onMouseDown={onClose}><div className="modal invoice-modal" onMouseDown={(event) => event.stopPropagation()}>
     <div className="modal-title"><h2>계산서 정보</h2><button onClick={onClose}><X /></button></div>
-    <div className="invoice-body"><p>MATHBOX CAMPUS KIT는 <b>주식회사 퀄럽이 정식 출판하는 출판물</b>로, 부가가치세법 제26조 제1항 제8호에 따라 면세 대상입니다. 따라서 <b>세금계산서가 아닌 (면세) 계산서</b>가 발행됩니다.</p>
+    <div className="invoice-body"><p>SLATIQ MOCK은 <b>주식회사 퀄럽이 정식 출판하는 출판물</b>로, 부가가치세법 제26조 제1항 제8호에 따라 면세 대상입니다. 따라서 <b>세금계산서가 아닌 (면세) 계산서</b>가 발행됩니다.</p>
       <div className="invoice-fields">
         <Field label="상호" required placeholder="주식회사 퀄럽" value={data.company} onChange={update('company')} />
         <Field label="사업자등록번호" required placeholder="000-00-00000" value={data.registration} onChange={update('registration')} />
@@ -188,7 +188,7 @@ function CardModal({ amount, onClose, onComplete }) {
         <div className="card-grid">{cards.map((name) => <button key={name} className={card === name ? 'selected' : ''} onClick={() => setCard(name)}>{name}</button>)}</div>
         <p className="pg-note">카드사별 무이자 할부 가능 개월 수 상이<br /><b>무이자 할부 제외 대상: 개인사업자, 법인, 체크, GIFT, 선불, 은행계열 카드</b></p>
       </main>
-      <section><h3>KG 이니시스</h3><dl><dt>상품명</dt><dd>CAMPUS KIT 결제</dd><dt>상품가격</dt><dd>{formatWon(amount)} 원</dd><dt>결제금액</dt><dd>{formatWon(amount)} 원</dd></dl><button disabled={!agreed || !card} onClick={onComplete}>다음</button></section>
+      <section><h3>KG 이니시스</h3><dl><dt>상품명</dt><dd>SLATIQ MOCK 결제</dd><dt>상품가격</dt><dd>{formatWon(amount)} 원</dd><dt>결제금액</dt><dd>{formatWon(amount)} 원</dd></dl><button disabled={!agreed || !card} onClick={onComplete}>다음</button></section>
     </div>
   </div></div>
 }
@@ -196,7 +196,7 @@ function CardModal({ amount, onClose, onComplete }) {
 function BankComplete({ amount, form, onClose }) {
   const copy = (value) => navigator.clipboard?.writeText(value)
   return <div className="modal-backdrop bank-backdrop"><div className="bank-receipt">
-    <div className="receipt-head"><span>1</span><div><h2>주문이 접수되었습니다</h2><p>입금 확인 후 지정 발송일에 배송을 시작합니다.</p></div><div><small>주문번호</small><b>KIT{form.director || 'Order'}_20260824</b></div></div>
+    <div className="receipt-head"><span>1</span><div><h2>주문이 접수되었습니다</h2><p>입금 확인 후 지정 발송일에 배송을 시작합니다.</p></div><div><small>주문번호</small><b>MOCK{form.director || 'Order'}_20260824</b></div></div>
     <hr />
     <div className="bank-title"><span>2</span><h3>입금 계좌 안내</h3><em>💡 08월 25일까지 입금</em></div>
     <div className="bank-table">
@@ -258,15 +258,15 @@ function TrialLanding({ onApply }) {
         <i className="trial-circle tc-5" /><i className="trial-circle tc-6" />
       </div>
       <div className="trial-top-logo">
-        <img src="https://freetrial.qulup.co.kr/images/mathbox-logo.png" alt="MATHBOX" />
+        <img src="/assets/slatiq-logo.png" alt="SLATIQ" />
       </div>
       <div className="trial-copy">
         <p className="trial-eyebrow">FREE TRIAL · 0회차 무료 체험</p>
-        <h1>2027 수능 대비<br /><em>CAMPUSKIT 0회차</em><br />무료로 받아보세요</h1>
+        <h1>2027 수능 대비<br /><em>SLATIQ MOCK 0회차</em><br />무료로 받아보세요</h1>
         <p className="trial-description"><strong>0회차 체험본</strong>을 무료로 보내드립니다.<br />선택 27번 포함 4점 전체 문제지 + 해설지 + 모의고사로 구성되어<br />받는 즉시 수업에 활용하실 수 있습니다.</p>
-        <p className="trial-limit">⚡ 선착순 3,000부 한정　·　학원 원장님 전용</p>
+        <p className="trial-limit">⚡ 1,800부 한정판　·　8.21–8.30 선착순　·　학원 원장님 전용</p>
       </div>
-      <div className="trial-bottom-logo"><img src="https://freetrial.qulup.co.kr/images/mathbox-logo-bottom.png" alt="QULUP" /></div>
+      <div className="trial-bottom-logo"><img src="/assets/slatiq-logo.png" alt="SLATIQ" /></div>
     </section>
     <section className="trial-form-side">
       {submitted ? <div className="trial-success">
@@ -281,10 +281,10 @@ function TrialLanding({ onApply }) {
         </dl>
         <div className="part1-conversion">
           <span>0회차 다음 단계</span>
-          <h3>PART 1 · 1~8회차 모의고사</h3>
+          <h3>SECTION 1 · 1~8회차 모의고사</h3>
           <p>체험 수업의 흐름을 그대로 이어가세요.<br />학생 수 구간별 할인과 묶음 배송이 자동 적용됩니다.</p>
         </div>
-        <button className="trial-apply" onClick={() => onApply(submitted)}>PART 1 모의고사 도입하기 <ArrowRight size={17} /></button>
+        <button className="trial-apply" onClick={() => onApply(submitted)}>SECTION 1 모의고사 도입하기 <ArrowRight size={17} /></button>
         <button className="trial-secondary" onClick={() => setSubmitted(null)}>신청 내용 다시 보기</button>
       </div> : <div className="trial-form-wrap">
         <div className="trial-form-heading">
@@ -303,7 +303,7 @@ function TrialLanding({ onApply }) {
           <label className="field"><span>배송지 <b>*</b><small>학원 주소로 무료배송</small></span><div className="trial-address-search"><input readOnly placeholder="주소 검색 버튼을 눌러주세요" value={form.address} /><button type="button" onClick={searchAddress}><MapPin size={15} /> 주소 검색</button></div></label>
           <div className="trial-form-grid address-row"><input readOnly placeholder="우편번호" value={form.postcode} /><input placeholder="상세 주소 (동, 호수)" value={form.detail} onChange={update('detail')} /></div>
           <label className="field trial-request"><span>요청사항 <small>선택</small></span><textarea placeholder="배송 관련 요청사항을 입력해 주세요." value={form.request} onChange={update('request')} /></label>
-          <div className="part1-preview"><div><span>체험 후 바로 이어지는 과정</span><b>PART 1 · 1~8회차</b></div><p>0회차 수업 후 정규 모의고사를<br />간편하게 도입할 수 있습니다.</p></div>
+          <div className="part1-preview"><div><span>체험 후 바로 이어지는 과정</span><b>SECTION 1 · 1~8회차</b></div><p>0회차 수업 후 정규 모의고사를<br />간편하게 도입할 수 있습니다.</p></div>
           <label className="trial-consent"><input type="checkbox" checked={form.agreed} onChange={(event) => setForm((old) => ({ ...old, agreed: event.target.checked }))} /><span>무료 체험 배송을 위한 개인정보 수집·이용에 동의합니다. <u>자세히</u></span></label>
           {error && <p className="trial-error">{error}</p>}
           <button className="trial-submit" type="submit">0회차 무료배송 신청하기 <ArrowRight size={17} /></button>
@@ -331,7 +331,7 @@ function App() {
   const totals = useMemo(() => getOrderTotals(Number(students), selectedParts, paymentType), [students, selectedParts, paymentType])
 
   const pay = () => {
-    if (!totals.count || !totals.parts) return setNotice('학생 수와 PART를 먼저 선택해 주세요.')
+    if (!totals.count || !totals.parts) return setNotice('학생 수와 SECTION을 먼저 선택해 주세요.')
     if (!paymentType || !method) return setNotice('결제 방식과 결제 수단을 선택해 주세요.')
     if (!agreed) return setNotice('개인정보 수집·이용 및 결제에 동의해 주세요.')
     if (method === 'bank' && !invoice) return setModal('invoice')
@@ -341,7 +341,7 @@ function App() {
   return <div className="app-shell">
     <Sidebar totals={totals} selectedParts={selectedParts} paymentType={paymentType} onStatus={() => setModal('status')} />
     <main className="main-area">
-      <header className="page-header"><div><h1>KIT 결제 신청</h1><p>PART별 일괄 출고일에 맞춰 발송되며, 계산서는 계좌이체 시 이메일로 발송됩니다.</p></div><div><span>카드 결제 지원</span><b>8회차 묶음 배송</b></div></header>
+      <header className="page-header"><div><h1>MOCK 결제 신청</h1><p>SECTION별 일괄 출고일에 맞춰 발송되며, 계산서는 계좌이체 시 이메일로 발송됩니다.</p></div><div><span>1,800부 한정 · 8.21–8.30</span><b>8회차 묶음 배송</b></div></header>
       <div className="form-scroll"><div className="form-grid">
         <AcademySection form={form} setForm={setForm} />
         <AddressSection form={form} setForm={setForm} />
@@ -365,7 +365,7 @@ function RootApp() {
   useEffect(() => {
     const handlePopState = () => setPath(window.location.pathname)
     window.addEventListener('popstate', handlePopState)
-    document.title = path === '/order' ? 'MATHBOX CAMPUS KIT 주문, 결제' : 'CAMPUS KIT 0회차 무료 체험'
+    document.title = path === '/order' ? 'SLATIQ MOCK 주문, 결제' : 'SLATIQ MOCK 0회차 무료 체험'
     return () => window.removeEventListener('popstate', handlePopState)
   }, [path])
 
