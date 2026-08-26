@@ -63,6 +63,7 @@ button:disabled { cursor: default; }
 .trial-application-form .field { gap: 6px; margin-bottom: 12px; }
 .trial-application-form .field > span { display: flex; align-items: center; }
 .trial-application-form .field > span small { margin-left: auto; color: #9aa0a9; font-size: 10px; font-weight: 400; }
+.optional-contact-note { margin: -4px 0 12px; color: #7f8792; font-size: 10px; line-height: 1.5; }
 .trial-application-form input { height: 43px; font-size: 12px; }
 .trial-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .trial-students > div { position: relative; }

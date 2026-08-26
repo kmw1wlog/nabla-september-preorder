@@ -2,10 +2,10 @@ export const TRIAL_STORAGE_KEY = 'campuskit-free-trial-applications'
 export const TRIAL_LATEST_KEY = 'campuskit-latest-free-trial'
 
 export function validateTrialApplication(form) {
-  const required = ['director', 'phone', 'academy', 'email', 'students', 'address', 'detail']
+  const required = ['director', 'academy', 'students', 'address', 'detail']
   if (required.some((key) => !String(form[key] ?? '').trim())) return '필수 정보를 모두 입력해 주세요.'
-  if (!/^01[016789]-?\d{3,4}-?\d{4}$/.test(form.phone.replace(/\s/g, ''))) return '연락처를 정확히 입력해 주세요.'
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) return '이메일을 정확히 입력해 주세요.'
+  if (form.phone && !/^01[016789]-?\d{3,4}-?\d{4}$/.test(form.phone.replace(/\s/g, ''))) return '연락처를 정확히 입력해 주세요.'
+  if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) return '이메일을 정확히 입력해 주세요.'
   const students = Number(form.students)
   if (!Number.isInteger(students) || students < 1 || students > 300) return '고3 학생 수는 1명부터 300명까지 입력해 주세요.'
   if (!form.agreed) return '개인정보 수집·이용에 동의해 주세요.'

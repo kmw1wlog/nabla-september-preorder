@@ -10,8 +10,10 @@ const valid = {
 
 test('무료 체험 신청 필수 정보를 검증한다', () => {
   assert.equal(validateTrialApplication(valid), '')
+  assert.equal(validateTrialApplication({ ...valid, phone: '', email: '' }), '')
   assert.match(validateTrialApplication({ ...valid, address: '' }), /필수 정보/)
   assert.match(validateTrialApplication({ ...valid, students: '0' }), /학생 수/)
+  assert.match(validateTrialApplication({ ...valid, phone: '1234' }), /연락처/)
 })
 
 test('학생 수와 동일한 무료 체험 부수로 접수번호를 생성한다', () => {

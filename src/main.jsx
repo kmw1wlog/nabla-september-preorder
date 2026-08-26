@@ -80,10 +80,10 @@ function AcademySection({ form, setForm }) {
   return <section className="panel academy-panel"><StepHeader number="1" title="학원 정보" />
     <div className="two-col">
       <Field label="원장님" required placeholder="홍길동" value={form.director} onChange={update('director')} />
-      <Field label="연락처" required placeholder="010-0000-0000" value={form.phone} onChange={update('phone')} />
+      <Field label="연락처 (선택 · 출고 안내)" placeholder="010-0000-0000" value={form.phone} onChange={update('phone')} />
     </div>
     <Field label="학원명" required placeholder="SLATIQ 수학학원" value={form.academy} onChange={update('academy')} />
-    <Field label="이메일" required type="email" placeholder="name@example.com" value={form.email} onChange={update('email')} />
+    <Field label="이메일 (선택 · 발송 안내)" type="email" placeholder="name@example.com" value={form.email} onChange={update('email')} />
   </section>
 }
 
@@ -258,10 +258,11 @@ function TrialLanding({ onApply }) {
         <form className="trial-application-form" onSubmit={submit}>
           <div className="trial-form-grid">
             <Field label="원장님" required placeholder="홍길동" value={form.director} onChange={update('director')} />
-            <Field label="연락처" required placeholder="010-0000-0000" value={form.phone} onChange={update('phone')} />
+            <Field label="연락처 (선택)" placeholder="010-0000-0000" value={form.phone} onChange={update('phone')} />
           </div>
           <Field label="학원명" required placeholder="SLATIQ 수학학원" value={form.academy} onChange={update('academy')} />
-          <Field label="이메일" required type="email" placeholder="name@example.com" value={form.email} onChange={update('email')} />
+          <Field label="이메일 (선택)" type="email" placeholder="name@example.com" value={form.email} onChange={update('email')} />
+          <p className="optional-contact-note">연락처나 이메일을 남기면 접수·배송 안내를 편하게 받을 수 있습니다.</p>
           <label className="field trial-students"><span>고3 학생 수 <b>*</b><small>신청 부수와 동일</small></span><div><input type="number" min="1" max="300" placeholder="예: 25" value={form.students} onChange={update('students')} /><strong>{Number(form.students) > 0 ? `${form.students}부 무료` : '0부'}</strong></div></label>
           <label className="field"><span>배송지 <b>*</b><small>학원 주소로 무료배송</small></span><div className="trial-address-search"><input readOnly placeholder="주소 검색 버튼을 눌러주세요" value={form.address} /><button type="button" onClick={searchAddress}><MapPin size={15} /> 주소 검색</button></div></label>
           <div className="trial-form-grid address-row"><input readOnly placeholder="우편번호" value={form.postcode} /><input placeholder="상세 주소 (동, 호수)" value={form.detail} onChange={update('detail')} /></div>
