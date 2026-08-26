@@ -79,7 +79,7 @@ function AcademySection({ form, setForm }) {
   const update = (key) => (event) => setForm((old) => ({ ...old, [key]: event.target.value }))
   return <section className="panel academy-panel"><StepHeader number="1" title="학원 정보" />
     <div className="two-col">
-      <Field label="원장님" required placeholder="홍길동" value={form.director} onChange={update('director')} />
+      <Field label="원장님 (선택)" placeholder="홍길동" value={form.director} onChange={update('director')} />
       <Field label="연락처 (선택 · 출고 안내)" placeholder="010-0000-0000" value={form.phone} onChange={update('phone')} />
     </div>
     <Field label="학원명" required placeholder="SLATIQ 수학학원" value={form.academy} onChange={update('academy')} />
@@ -239,7 +239,7 @@ function TrialLanding({ onApply }) {
         <p>{submitted.academy}의 고3 학생 <b>{submitted.students}명</b>을 위한<br /><b>{submitted.copies}부</b>가 학원 주소로 무료배송됩니다.</p>
         <dl>
           <div><dt>접수번호</dt><dd>{submitted.applicationId}</dd></div>
-          <div><dt>받는 분</dt><dd>{submitted.director} 원장님</dd></div>
+          <div><dt>받는 분</dt><dd>{submitted.director ? `${submitted.director} 원장님` : '학원 담당자'}</dd></div>
           <div><dt>배송지</dt><dd>({submitted.postcode}) {submitted.address} {submitted.detail}</dd></div>
         </dl>
         <div className="part1-conversion">
@@ -257,7 +257,7 @@ function TrialLanding({ onApply }) {
         </div>
         <form className="trial-application-form" onSubmit={submit}>
           <div className="trial-form-grid">
-            <Field label="원장님" required placeholder="홍길동" value={form.director} onChange={update('director')} />
+            <Field label="원장님 (선택)" placeholder="홍길동" value={form.director} onChange={update('director')} />
             <Field label="연락처 (선택)" placeholder="010-0000-0000" value={form.phone} onChange={update('phone')} />
           </div>
           <Field label="학원명" required placeholder="SLATIQ 수학학원" value={form.academy} onChange={update('academy')} />

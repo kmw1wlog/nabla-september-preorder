@@ -2,7 +2,7 @@ export const TRIAL_STORAGE_KEY = 'campuskit-free-trial-applications'
 export const TRIAL_LATEST_KEY = 'campuskit-latest-free-trial'
 
 export function validateTrialApplication(form) {
-  const required = ['director', 'academy', 'students', 'address', 'detail']
+  const required = ['academy', 'students', 'address', 'detail']
   if (required.some((key) => !String(form[key] ?? '').trim())) return '필수 정보를 모두 입력해 주세요.'
   if (form.phone && !/^01[016789]-?\d{3,4}-?\d{4}$/.test(form.phone.replace(/\s/g, ''))) return '연락처를 정확히 입력해 주세요.'
   if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) return '이메일을 정확히 입력해 주세요.'
