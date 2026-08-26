@@ -7,6 +7,7 @@ import {
 } from 'lucide-react'
 import { formatWon, getOrderTotals, SECTIONS, PRICE_TIERS } from './order.js'
 import { createTrialApplication, loadLatestTrialApplication, saveTrialApplication, validateTrialApplication } from './trial.js'
+import { sendTrialNotification } from './trial-notification.js'
 import './styles.css'
 
 const Field = ({ label, required, className = '', ...props }) => (
@@ -187,6 +188,7 @@ function TrialLanding({ onApply }) {
   })
   const [submitted, setSubmitted] = useState(null)
   const [error, setError] = useState('')
+  const [submitting, setSubmitting] = useState(false)
   const update = (key) => (event) => setForm((old) => ({ ...old, [key]: event.target.value }))
 
   const searchAddress = () => {
@@ -203,15 +205,24 @@ function TrialLanding({ onApply }) {
     }).open()
   }
 
-  const submit = (event) => {
+  const submit = async (event) => {
     event.preventDefault()
+    if (submitting) return
     const message = validateTrialApplication(form)
     if (message) return setError(message)
     const application = createTrialApplication(form)
-    saveTrialApplication(application)
-    setSubmitted(application)
+    setSubmitting(true)
     setError('')
-    requestAnimationFrame(() => document.querySelector('.trial-form-side')?.scrollTo({ top: 0 }))
+    try {
+      await sendTrialNotification(application)
+      saveTrialApplication(application)
+      setSubmitted(application)
+      requestAnimationFrame(() => document.querySelector('.trial-form-side')?.scrollTo({ top: 0 }))
+    } catch (sendError) {
+      setError(sendError.message)
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return <main className="trial-page concept-system">
@@ -270,7 +281,7 @@ function TrialLanding({ onApply }) {
           <div className="part1-preview"><div><span>체험 다음의 정규 운영</span><b>SECTION 1 · 1~8회차</b></div><p>같은 해설 구조와 수업 흐름으로<br />정규 회차를 이어갈 수 있습니다.</p></div>
           <label className="trial-consent"><input type="checkbox" checked={form.agreed} onChange={(event) => setForm((old) => ({ ...old, agreed: event.target.checked }))} /><span>무료 체험 배송을 위한 개인정보 수집·이용에 동의합니다. <u>자세히</u></span></label>
           {error && <p className="trial-error">{error}</p>}
-          <button className="trial-submit" type="submit">학원 체험본 신청하기 <ArrowRight size={17} /></button>
+          <button className="trial-submit" type="submit" disabled={submitting}>{submitting ? '신청 정보를 전송하는 중...' : <>학원 체험본 신청하기 <ArrowRight size={17} /></>}</button>
         </form>
       </div>}
     </section>
