@@ -181,6 +181,23 @@ function ConceptVisual() {
   </div>
 }
 
+const TRIAL_CLOSED = true
+
+function TrialClosed({ onOrder }) {
+  return <div className="trial-closed">
+    <div className="trial-closed-inner">
+      <div className="trial-closed-copy">
+        <span className="trial-closed-badge">FREE TRIAL · CLOSED</span>
+        <h2>무료 체험 신청이<br />마감되었습니다.</h2>
+        <p>준비된 선착순 1,800부가 모두 소진되어<br />SLATIQ MOCK 00 신청을 종료합니다.</p>
+        <p className="trial-closed-thanks">보내주신 관심에 진심으로 감사드립니다.<br />정규 모의고사 도입과 추가 문의는 아래에서 확인해 주세요.</p>
+      </div>
+      <button className="trial-apply" type="button" onClick={() => onOrder(null)}>정규 SECTION 도입 신청하기 <ArrowRight size={17} /></button>
+      <a className="trial-kakao" href="https://open.kakao.com/o/sKOMMb9h" target="_blank" rel="noreferrer"><MessageCircle size={17} /> 카카오톡으로 문의하기</a>
+    </div>
+  </div>
+}
+
 function TrialLanding({ onApply }) {
   const [form, setForm] = useState({
     director: '', phone: '', academy: '', email: '', students: '',
@@ -243,7 +260,7 @@ function TrialLanding({ onApply }) {
       </div>
     </section>
     <section className="trial-form-side">
-      {submitted ? <div className="trial-success">
+      {TRIAL_CLOSED ? <TrialClosed onOrder={onApply} /> : submitted ? <div className="trial-success">
         <div className="success-icon"><Check size={28} /></div>
         <span className="success-kicker">FREE TRIAL APPLICATION</span>
         <h2>SLATIQ MOCK 00 체험 신청이<br />접수되었습니다.</h2>

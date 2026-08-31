@@ -40,11 +40,13 @@ button:disabled { cursor: default; }
 .trial-limit { margin: 12px 0 0; color: #888; font-size: 12px; }
 .trial-bottom-logo { display: flex; justify-content: flex-end; }
 .trial-bottom-logo img { display: block; width: auto; height: 34px; opacity: .8; }
-.trial-closed { min-height: 100dvh; padding: 52px; display: flex; align-items: center; justify-content: center; overflow-y: auto; }
+.trial-closed { width: 100%; min-height: auto; padding: 0; display: flex; align-items: center; justify-content: center; }
 .trial-closed-inner { width: 100%; max-width: 370px; }
 .trial-closed-copy { margin-bottom: 36px; text-align: center; }
+.trial-closed-badge { display: inline-flex; margin-bottom: 15px; padding: 6px 10px; color: #146cff; background: #edf4ff; border-radius: 999px; font-size: 10px; font-weight: 800; letter-spacing: .12em; }
 .trial-closed-copy h2 { margin: 0 0 6px; color: #0e0e0e; font-size: 25px; font-weight: 900; line-height: 1.5; letter-spacing: -.5px; }
 .trial-closed-copy p { margin: 12px 0 0; color: #6b6b6b; font-size: 13px; line-height: 1.7; }
+.trial-closed-copy .trial-closed-thanks { margin-top: 18px; color: #858b95; font-size: 11.5px; }
 .trial-apply, .trial-kakao { width: 100%; min-height: 46px; margin-top: 8px; padding: 13px; display: flex; align-items: center; justify-content: center; gap: 8px; border: 0; border-radius: 6px; color: white; font-size: 14px; font-weight: 700; letter-spacing: -.3px; text-decoration: none; transition: background .15s; }
 .trial-apply { background: #0e0e0e; }
 .trial-apply:hover { background: #1c1c1c; }
