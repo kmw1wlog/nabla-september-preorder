@@ -2,7 +2,7 @@ export const TRIAL_NOTIFICATION_ENDPOINT = 'https://formsubmit.co/ajax/nabla1moc
 
 export function createTrialNotificationPayload(application) {
   return {
-    _subject: `[SLATIQ MOCK 00] 무료배송 신청 · ${application.academy}`,
+    _subject: `[NABLA MOCK 00] 무료배송 신청 · ${application.academy}`,
     _template: 'table',
     _replyto: application.email || '',
     _honey: '',
@@ -17,7 +17,7 @@ export function createTrialNotificationPayload(application) {
     address: `${application.address} ${application.detail}`.trim(),
     request: application.request || '없음',
     privacy_consent: '동의',
-    application_source: 'SLATIQ MOCK 00 학원 무료배송 홈페이지',
+    application_source: 'NABLA MOCK 00 학원 무료배송 홈페이지',
     submitted_at: application.submittedAt,
   }
 }

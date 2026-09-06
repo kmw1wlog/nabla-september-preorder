@@ -1,5 +1,5 @@
-export const TRIAL_STORAGE_KEY = 'campuskit-free-trial-applications'
-export const TRIAL_LATEST_KEY = 'campuskit-latest-free-trial'
+export const TRIAL_STORAGE_KEY = 'nabla-mock-free-trial-applications'
+export const TRIAL_LATEST_KEY = 'nabla-mock-latest-free-trial'
 
 export function validateTrialApplication(form) {
   const required = ['academy', 'students', 'address', 'detail']

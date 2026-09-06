@@ -26,8 +26,9 @@ const StepHeader = ({ number, title, note }) => (
 
 function Logo({ footer = false }) {
   return (
-    <div className={footer ? 'slatiq-logo footer-logo' : 'slatiq-logo'} aria-label="SLATIQ MOCK">
-      <img src="/assets/slatiq-logo.png" alt="SLATIQ" />
+    <div className={footer ? 'nabla-logo footer-logo' : 'nabla-logo'} aria-label="NABLA MOCK">
+      <span className="nabla-symbol" aria-hidden="true">∇</span>
+      <span className="nabla-wordmark">NABLA</span>
       {!footer && <strong>MOCK</strong>}
     </div>
   )
@@ -69,7 +70,7 @@ function Sidebar({ totals, selectedParts, paymentType, onStatus }) {
           <p><b>상호</b>&nbsp; RYUL　 <b>대표자</b>&nbsp; 허건행</p>
           <p><b>개인정보보호책임자</b>&nbsp; 허건행</p>
           <p><b>주소</b>&nbsp; 대구광역시 중구 명륜로23길 89 (남산동)</p>
-          <small>© 2026 RYUL · SLATIQ MOCK</small>
+          <small>© 2026 RYUL · NABLA MOCK</small>
         </footer>
       </div>
     </aside>
@@ -83,7 +84,7 @@ function AcademySection({ form, setForm }) {
       <Field label="원장님 (선택)" placeholder="홍길동" value={form.director} onChange={update('director')} />
       <Field label="연락처 (선택 · 출고 안내)" placeholder="010-0000-0000" value={form.phone} onChange={update('phone')} />
     </div>
-    <Field label="학원명" required placeholder="SLATIQ 수학학원" value={form.academy} onChange={update('academy')} />
+    <Field label="학원명" required placeholder="NABLA 수학학원" value={form.academy} onChange={update('academy')} />
     <Field label="이메일 (선택 · 발송 안내)" type="email" placeholder="name@example.com" value={form.email} onChange={update('email')} />
   </section>
 }
@@ -164,7 +165,7 @@ function CardModal({ amount, onClose, onComplete }) {
         <div className="card-grid">{cards.map((name) => <button key={name} className={card === name ? 'selected' : ''} onClick={() => setCard(name)}>{name}</button>)}</div>
         <p className="pg-note">카드사별 무이자 할부 가능 개월 수 상이<br /><b>무이자 할부 제외 대상: 개인사업자, 법인, 체크, GIFT, 선불, 은행계열 카드</b></p>
       </main>
-      <section><h3>KG 이니시스</h3><dl><dt>상품명</dt><dd>SLATIQ MOCK 결제</dd><dt>상품가격</dt><dd>{formatWon(amount)} 원</dd><dt>결제금액</dt><dd>{formatWon(amount)} 원</dd></dl><button disabled={!agreed || !card} onClick={onComplete}>다음</button></section>
+      <section><h3>KG 이니시스</h3><dl><dt>상품명</dt><dd>NABLA MOCK 결제</dd><dt>상품가격</dt><dd>{formatWon(amount)} 원</dd><dt>결제금액</dt><dd>{formatWon(amount)} 원</dd></dl><button disabled={!agreed || !card} onClick={onComplete}>다음</button></section>
     </div>
   </div></div>
 }
@@ -176,8 +177,7 @@ function StatusModal({ onClose }) {
 function ConceptVisual() {
   return <div className="concept-visual system-visual">
     <img className="layer cover-layer" src="/assets/oracle-00-cover.webp" alt="ORACLE 00 포장 표지" />
-    <img className="layer paper-layer" src="/assets/paper-sample.webp" alt="SLATIQ 모의고사 예시" />
-    <img className="layer solution-layer" src="/assets/solution-sample.jpg" alt="SLATIQ 해설 예시" />
+    <img className="layer solution-layer" src="/assets/solution-sample.jpg" alt="NABLA 해설 예시" />
   </div>
 }
 
@@ -189,7 +189,7 @@ function TrialClosed({ onOrder }) {
       <div className="trial-closed-copy">
         <span className="trial-closed-badge">FREE TRIAL · CLOSED</span>
         <h2>무료 체험 신청이<br />마감되었습니다.</h2>
-        <p>준비된 선착순 1,800부가 모두 소진되어<br />SLATIQ MOCK 00 신청을 종료합니다.</p>
+        <p>준비된 선착순 1,800부가 모두 소진되어<br />NABLA MOCK 00 신청을 종료합니다.</p>
         <p className="trial-closed-thanks">보내주신 관심에 진심으로 감사드립니다.<br />정규 모의고사 도입과 추가 문의는 아래에서 확인해 주세요.</p>
       </div>
       <button className="trial-apply" type="button" onClick={() => onOrder(null)}>정규 SECTION 도입 신청하기 <ArrowRight size={17} /></button>
@@ -250,11 +250,11 @@ function TrialLanding({ onApply }) {
         <i className="trial-circle tc-5" /><i className="trial-circle tc-6" />
       </div>
       <div className="trial-top-logo">
-        <img src="/assets/slatiq-logo.png" alt="SLATIQ" />
+        <Logo footer />
       </div>
       <ConceptVisual />
       <div className="trial-copy">
-        <h1>2027 수능 대비<br /><em>SLATIQ MOCK 0회차</em><br />무료로 받아보세요</h1>
+        <h1>2027 수능 대비<br /><em>NABLA MOCK 0회차</em><br />무료로 받아보세요</h1>
         <p className="trial-description"><strong>0회차 학원 체험본</strong>을 무료로 보내드립니다.<br />선택 27번을 포함한 4점 전체 문제지 + 해설지 + 강사자료로 구성되어<br />받으신 뒤 바로 수업에 활용하실 수 있습니다.</p>
         <p className="trial-limit">⚡ 선착순 1,800부 한정　·　학원 원장님 전용　·　08.21–08.30</p>
       </div>
@@ -263,7 +263,7 @@ function TrialLanding({ onApply }) {
       {TRIAL_CLOSED ? <TrialClosed onOrder={onApply} /> : submitted ? <div className="trial-success">
         <div className="success-icon"><Check size={28} /></div>
         <span className="success-kicker">FREE TRIAL APPLICATION</span>
-        <h2>SLATIQ MOCK 00 체험 신청이<br />접수되었습니다.</h2>
+        <h2>NABLA MOCK 00 체험 신청이<br />접수되었습니다.</h2>
         <p>{submitted.academy}의 고3 학생 <b>{submitted.students}명</b>을 위한<br /><b>{submitted.copies}부</b>가 학원 주소로 무료배송됩니다.</p>
         <dl>
           <div><dt>접수번호</dt><dd>{submitted.applicationId}</dd></div>
@@ -280,7 +280,7 @@ function TrialLanding({ onApply }) {
       </div> : <div className="trial-form-wrap">
         <div className="trial-form-heading">
           <div><span>학원 원장님 전용</span><b>0원 · 무료배송</b></div>
-          <h2>SLATIQ MOCK 00 · 학원 체험 신청</h2>
+          <h2>NABLA MOCK 00 · 학원 체험 신청</h2>
           <p>실전 문제지와 단계형 해설을 학원에서 먼저 확인해 보세요.</p>
         </div>
         <form className="trial-application-form" onSubmit={submit}>
@@ -288,7 +288,7 @@ function TrialLanding({ onApply }) {
             <Field label="원장님 (선택)" placeholder="홍길동" value={form.director} onChange={update('director')} />
             <Field label="연락처 (선택)" placeholder="010-0000-0000" value={form.phone} onChange={update('phone')} />
           </div>
-          <Field label="학원명" required placeholder="SLATIQ 수학학원" value={form.academy} onChange={update('academy')} />
+          <Field label="학원명" required placeholder="NABLA 수학학원" value={form.academy} onChange={update('academy')} />
           <Field label="이메일 (선택)" type="email" placeholder="name@example.com" value={form.email} onChange={update('email')} />
           <p className="optional-contact-note">연락처나 이메일을 남기면 접수·배송 안내를 편하게 받을 수 있습니다.</p>
           <label className="field trial-students"><span>고3 학생 수 <b>*</b><small>신청 부수와 동일</small></span><div><input type="number" min="1" max="300" placeholder="예: 25" value={form.students} onChange={update('students')} /><strong>{Number(form.students) > 0 ? `${form.students}부 무료` : '0부'}</strong></div></label>
@@ -353,7 +353,7 @@ function RootApp() {
   useEffect(() => {
     const handlePopState = () => setPath(window.location.pathname)
     window.addEventListener('popstate', handlePopState)
-    document.title = path === '/order' ? 'SLATIQ MOCK 주문, 결제' : 'SLATIQ MOCK 0회차 무료 체험'
+    document.title = path === '/order' ? 'NABLA MOCK 주문, 결제' : 'NABLA MOCK 0회차 무료 체험'
     return () => window.removeEventListener('popstate', handlePopState)
   }, [path])
 

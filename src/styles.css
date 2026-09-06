@@ -466,7 +466,7 @@ input:focus, textarea:focus { border-color: var(--violet); box-shadow: 0 0 0 3px
   .bank-receipt { padding-inline: 18px; }
 }
 
-/* SLATIQ MOCK brand layer */
+/* NABLA MOCK brand layer */
 .trial-hero {
   background:
     radial-gradient(circle at 78% 18%, rgba(20,108,255,.22), transparent 34%),
@@ -478,13 +478,7 @@ input:focus, textarea:focus { border-color: var(--violet); box-shadow: 0 0 0 3px
 .trial-bottom-logo {
   width: max-content;
 }
-.trial-top-logo img,
-.trial-bottom-logo img {
-  width: auto;
-  height: 38px;
-  opacity: 1;
-  filter: drop-shadow(0 5px 14px rgba(0,0,0,.2)) brightness(0) invert(1);
-}
+.trial-top-logo .nabla-logo { margin: 0; }
 .trial-eyebrow { color: rgba(255,255,255,.64); }
 .trial-copy h1 em { color: #65b7ff; font-weight: 350; }
 .trial-limit {
@@ -523,28 +517,44 @@ input:focus, textarea:focus { border-color: var(--violet); box-shadow: 0 0 0 3px
     linear-gradient(rgba(255,255,255,.014) 1px,transparent 1px),
     linear-gradient(90deg,rgba(255,255,255,.014) 1px,transparent 1px);
 }
-.slatiq-logo {
+.nabla-logo {
   width: max-content;
   min-height: 44px;
   margin-bottom: 26px;
   display: flex;
   align-items: center;
   gap: 10px;
+  color: #fff;
 }
-.slatiq-logo img {
-  width: 170px;
-  height: auto;
-  filter: drop-shadow(0 5px 14px rgba(0,0,0,.2)) brightness(0) invert(1);
+.nabla-symbol {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  color: #071426;
+  background: linear-gradient(145deg,#83d4ff,#2688ff);
+  clip-path: polygon(50% 100%,0 0,100% 0);
+  font-size: 25px;
+  font-weight: 900;
+  line-height: 1;
+  text-shadow: 0 1px 0 rgba(255,255,255,.25);
 }
-.slatiq-logo > strong {
+.nabla-wordmark {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  line-height: 1;
+}
+.nabla-logo > strong {
   padding-left: 10px;
   color: rgba(255,255,255,.9);
   border-left: 1px solid rgba(255,255,255,.24);
   font-size: 12px;
   letter-spacing: .18em;
 }
-.slatiq-logo.footer-logo { min-height: auto; margin-bottom: 12px; }
-.slatiq-logo.footer-logo img { width: 116px; }
+.nabla-logo.footer-logo { min-height: auto; margin-bottom: 12px; }
+.nabla-logo.footer-logo .nabla-symbol { width: 27px; height: 27px; font-size: 18px; }
+.nabla-logo.footer-logo .nabla-wordmark { font-size: 17px; }
 .summary-title > span {
   color: #d9bd88;
   border-color: rgba(197,166,106,.34);
@@ -588,11 +598,11 @@ input:focus, textarea:focus { border-color: var(--violet); box-shadow: 0 0 0 3px
 .next-guide { color: #284d7d; background: #eff5fd; border-color: #d9e6f7; }
 
 @media (max-width: 900px) {
-  .slatiq-logo { margin-bottom: 18px; }
+  .nabla-logo { margin-bottom: 18px; }
 }
 
 @media (max-width: 767px) {
-  .trial-top-logo img,
-  .trial-bottom-logo img { height: 31px; }
+  .trial-top-logo .nabla-symbol { width: 31px; height: 31px; font-size: 20px; }
+  .trial-top-logo .nabla-wordmark { font-size: 20px; }
   .trial-limit { width: auto; line-height: 1.45; }
 }
