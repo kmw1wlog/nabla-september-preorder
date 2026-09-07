@@ -652,7 +652,7 @@ input:focus, textarea:focus { border-color: var(--violet); box-shadow: 0 0 0 3px
   display: flex;
   align-items: center;
   gap: 11px;
-  margin: -8px 0 18px;
+  margin: 12px 0 14px;
   padding: 12px 14px;
   border: 1px solid #ead8aa;
   border-radius: 11px;
@@ -665,6 +665,21 @@ input:focus, textarea:focus { border-color: var(--violet); box-shadow: 0 0 0 3px
 .early-reservation-benefit span { display: block; }
 .early-reservation-benefit b { font-size: 12px; }
 .early-reservation-benefit span { margin-top: 3px; color: #8a754d; font-size: 10px; line-height: 1.5; }
+.early-reservation-benefit strong { color: #5f3f08; font-size: 11px; }
+.question-visual::after { background: linear-gradient(180deg,rgba(4,13,26,.02) 28%,#071426 84%); }
+.question-sheet {
+  position: absolute;
+  width: 29%;
+  max-height: 52vh;
+  object-fit: cover;
+  object-position: top;
+  border: 4px solid rgba(255,255,255,.9);
+  background: #fff;
+  box-shadow: 0 24px 55px rgba(0,0,0,.58);
+}
+.question-sheet-one { top: 92px; right: 8%; transform: rotate(7deg); }
+.question-sheet-two { top: 128px; right: 31%; transform: rotate(-7deg); }
+.question-sheet-three { top: 176px; right: 19%; transform: rotate(1deg); }
 .september-preview {
   display: grid;
   grid-template-columns: 116px 116px 1fr;
@@ -772,4 +787,9 @@ input:focus, textarea:focus { border-color: var(--violet); box-shadow: 0 0 0 3px
     font-weight: 850;
     text-decoration: none;
   }
+  .question-visual { top: 72px; }
+  .question-sheet { width: 39%; max-height: 320px; }
+  .question-sheet-one { top: 32px; right: 8%; }
+  .question-sheet-two { top: 58px; right: 35%; }
+  .question-sheet-three { top: 88px; right: 20%; }
 }

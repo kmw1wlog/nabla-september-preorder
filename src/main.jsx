@@ -193,7 +193,7 @@ const VARIANT_COPY = {
   a: {
     badge: '',
     title: '필요한 수량만 먼저 확보하고\n무료본으로 판단하세요.',
-    note: '지금 결제되지 않습니다. 9월 10일까지 예약하면 검토용 모의고사 1부를 추가로 보내드리며, 9월 12일까지 구매 미확정 시 예약은 자동 취소됩니다.',
+    note: '지금 결제되지 않습니다. 9월 12일까지 구매 미확정 시 예약은 자동 취소됩니다.',
     button: '사전예약하고 무료본 바로 받기',
   },
   b: {
@@ -218,16 +218,24 @@ function saveSeptemberLead(lead) {
 
 function DownloadBundle() {
   return <div className="download-bundle">
-    <a href={SEPTEMBER_FILES.problems} download><FileText size={18} /><span><b>2회 문제지</b><small>13쪽 PDF</small></span><Download size={17} /></a>
-    <a href={SEPTEMBER_FILES.solutions} download><FileText size={18} /><span><b>정답 및 해설</b><small>18쪽 PDF</small></span><Download size={17} /></a>
+    <a href={SEPTEMBER_FILES.problems} download><FileText size={18} /><span><b>무료 모의고사 1회차 문제지</b><small>13쪽 PDF</small></span><Download size={17} /></a>
+    <a href={SEPTEMBER_FILES.solutions} download><FileText size={18} /><span><b>무료 모의고사 1회차 해설지</b><small>18쪽 PDF</small></span><Download size={17} /></a>
   </div>
 }
 
 function SeptemberPreview() {
   return <div className="september-preview">
-    <figure><img src="/assets/september/problem-cover.jpg" alt="NABLA 9월 모평 반영 문제지 표지" /><figcaption>문제지 · 30문항</figcaption></figure>
-    <figure><img src="/assets/september/solution-cover.jpg" alt="NABLA 9월 모평 반영 해설지 표지" /><figcaption>정답 및 해설</figcaption></figure>
-    <div><span>2027학년도 수능 대비</span><h3>9월 모의평가 반영<br />수학 실전모의고사 2회</h3><p>공통과목 + 미적분 · 30문항<br />평가원 고난도 문항의 핵심 발상을<br />새로운 조건에서 다시 훈련합니다.</p></div>
+    <figure><img src="/assets/september/question-page-01.jpg" alt="NABLA 무료 모의고사 1회차 문항 미리보기" /><figcaption>1회차 · 30문항</figcaption></figure>
+    <figure><img src="/assets/september/question-page-10.jpg" alt="NABLA 무료 모의고사 1회차 미적분 문항 미리보기" /><figcaption>공통 + 미적분</figcaption></figure>
+    <div><span>2027학년도 수능 대비</span><h3>9월 모의평가 반영<br />수학 실전모의고사 1회차</h3><p>공통과목 + 미적분 · 30문항<br />평가원 고난도 문항의 핵심 발상을<br />새로운 조건에서 다시 훈련합니다.</p></div>
+  </div>
+}
+
+function SeptemberQuestionVisual() {
+  return <div className="concept-visual question-visual" aria-label="NABLA 모의고사 실제 문항 미리보기">
+    <img className="question-sheet question-sheet-one" src="/assets/september/question-page-01.jpg" alt="NABLA 모의고사 1회차 공통과목 문항" />
+    <img className="question-sheet question-sheet-two" src="/assets/september/question-page-05.jpg" alt="NABLA 모의고사 1회차 고난도 문항" />
+    <img className="question-sheet question-sheet-three" src="/assets/september/question-page-10.jpg" alt="NABLA 모의고사 1회차 미적분 문항" />
   </div>
 }
 
@@ -253,9 +261,9 @@ function SeptemberCampaignPanel({ variant, onOrder }) {
     <div className="campaign-check"><Check size={28} /></div>
     <span className="campaign-kicker">{variant === 'c' ? 'FREE SAMPLE READY' : `${form.quantity}부 수량 확보 완료`}</span>
     <h2>{variant === 'c' ? '무료본이 준비되었습니다.' : '사전예약이 접수되었습니다.'}</h2>
-    <p>{variant === 'c' ? '아래에서 문제지와 해설지를 바로 내려받을 수 있습니다.' : `NABLA 실전모의고사 ${form.quantity}부를 임시 확보했습니다. 지금 1부를 바로 받고, 9월 10일까지 예약 혜택으로 추가 1부도 받아보세요.`}</p>
+    <p>{variant === 'c' ? '아래에서 문제지와 해설지를 바로 내려받을 수 있습니다.' : `NABLA 실전모의고사 ${form.quantity}부를 임시 확보했습니다. 지금 무료 모의고사 1회차를 바로 내려받아 검토해 보세요.`}</p>
     <DownloadBundle />
-    <div className="reservation-deadline"><ShieldCheck size={19} /><p><b>{variant === 'a' ? '무료 모의고사 총 2부 제공' : '9월 12일까지 부담 없이 검토'}</b><span>{variant === 'a' ? '예약 즉시 1부 다운로드 · 9월 10일까지 예약 시 추가 1부 제공' : variant === 'c' ? '검토 후 단체 수량을 선택할 수 있습니다.' : '구매 미확정 시 결제 없이 자동 취소됩니다.'}</span></p></div>
+    <div className="reservation-deadline"><ShieldCheck size={19} /><p><b>{variant === 'a' ? '무료 모의고사 1회차 다운로드' : '9월 12일까지 부담 없이 검토'}</b><span>{variant === 'a' ? '9월 10일에 검토용 모의고사 1부를 추가로 보내드립니다.' : variant === 'c' ? '검토 후 단체 수량을 선택할 수 있습니다.' : '구매 미확정 시 결제 없이 자동 취소됩니다.'}</span></p></div>
     {variant === 'c' && <button className="campaign-primary" onClick={() => onOrder(null)}>8·16·24부 사전예약하기 <ArrowRight size={17} /></button>}
     <button className="campaign-link" onClick={() => setStage('form')}>입력 내용 다시 보기</button>
   </section>
@@ -272,8 +280,7 @@ function SeptemberCampaignPanel({ variant, onOrder }) {
   return <section className="september-panel">
     <div className={`campaign-topline ${copy.badge ? '' : 'campaign-topline-single'}`}>{copy.badge && <span>{copy.badge}</span>}<b>선착순 30개 학원 · 30% 할인</b></div>
     <h2>{copy.title.split('\n').map((line, index) => <React.Fragment key={line}>{index > 0 && <br />}{line}</React.Fragment>)}</h2>
-    <p className="campaign-sub">9월 모의평가 출제 포인트를 반영한 수능 수학 실전모의고사 2회입니다.</p>
-    {variant === 'a' && <div className="early-reservation-benefit"><Sparkles size={18} /><p><b>9월 10일까지 예약하면 무료 모의고사 총 2부</b><span>예약 즉시 1부를 다운로드하고, 검토용 모의고사 1부를 추가로 보내드립니다.</span></p></div>}
+    <p className="campaign-sub">9월 모의평가 출제 포인트를 반영한 수능 수학 실전모의고사 1회차입니다.</p>
     <SeptemberPreview />
     <form className="campaign-form" onSubmit={submit}>
       {variant !== 'c' && <>
@@ -283,6 +290,7 @@ function SeptemberCampaignPanel({ variant, onOrder }) {
       <label className="campaign-field"><span>자료 받을 이메일 <b>*</b></span><input type="email" placeholder="name@example.com" value={form.email} onChange={update('email')} /></label>
       {variant !== 'c' && <div className="campaign-two"><label className="campaign-field"><span>원장님 성함 <small>선택</small></span><input placeholder="홍길동" value={form.name} onChange={update('name')} /></label><label className="campaign-field"><span>연락처 <small>선택</small></span><input placeholder="010-0000-0000" value={form.phone} onChange={update('phone')} /></label></div>}
       <label className="campaign-consent"><input type="checkbox" checked={form.agreed} onChange={(event) => setForm((old) => ({ ...old, agreed: event.target.checked }))} /><span>{variant === 'c' ? '무료 자료 제공을 위한 개인정보 수집·이용에 동의합니다.' : '사전예약 조건 및 개인정보 수집·이용에 동의합니다.'}</span></label>
+      {variant === 'a' && <div className="early-reservation-benefit"><Sparkles size={18} /><p><b>지금 사전예약 시 선착순 30부로</b><span><strong>9월 10일에 무료 모의고사 1부</strong>를 추가로 보내드립니다.</span></p></div>}
       {error && <p className="campaign-error">{error}</p>}
       <button className="campaign-primary" type="submit">{copy.button} <ArrowRight size={17} /></button>
       <p className="campaign-note">{copy.note}</p>
@@ -295,7 +303,7 @@ function SeptemberCampaign({ variant, onOrder }) {
     <section className="trial-hero september-closed-hero">
       <div className="trial-circles" aria-hidden="true"><i className="trial-circle tc-1" /><i className="trial-circle tc-2" /><i className="trial-circle tc-3" /><i className="trial-circle tc-4" /></div>
       <div className="trial-top-logo"><Logo footer /></div>
-      <ConceptVisual />
+      <SeptemberQuestionVisual />
       <div className="trial-copy">
         <span className="closed-proof">FREE TRIAL · CLOSED</span>
         <h1>2027 수능 대비<br /><em>NABLA MOCK 0회차</em><br />무료 체험 마감</h1>
