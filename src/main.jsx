@@ -2,8 +2,9 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import {
   ArrowRight, Box, Building2, CalendarDays, Check, CheckCircle2, ChevronRight,
-  ClipboardList, Copy, CreditCard, Lightbulb, Mail, MapPin, MessageCircle,
-  ReceiptText, Search, WalletCards, X,
+  ClipboardList, Copy, CreditCard, Download, FileText, Lightbulb, LockKeyhole,
+  Mail, MapPin, MessageCircle, ReceiptText, Search, ShieldCheck, Sparkles,
+  WalletCards, X,
 } from 'lucide-react'
 import { formatWon, getOrderTotals, SECTIONS, PRICE_TIERS } from './order.js'
 import { createTrialApplication, loadLatestTrialApplication, saveTrialApplication, validateTrialApplication } from './trial.js'
@@ -183,6 +184,129 @@ function ConceptVisual() {
 
 const TRIAL_CLOSED = true
 
+const SEPTEMBER_FILES = {
+  problems: '/downloads/nabla-september-mock-2-problems.pdf',
+  solutions: '/downloads/nabla-september-mock-2-solutions.pdf',
+}
+
+const VARIANT_COPY = {
+  a: {
+    badge: '추천안 · 결제 없는 수량 확보',
+    title: '필요한 수량만 먼저 확보하고\n무료본으로 판단하세요.',
+    note: '지금 결제되지 않습니다. 9월 12일까지 구매를 확정하지 않으면 예약은 자동 취소됩니다.',
+    button: '사전예약하고 무료본 바로 받기',
+  },
+  b: {
+    badge: '예약금안 · 구매 의향 확인',
+    title: '5,000원으로 수량을 확보하고\n무료본을 바로 검토하세요.',
+    note: '예약금은 최종 결제에서 전액 차감되며, 9월 12일까지 취소하면 전액 환불되는 구성안입니다.',
+    button: '예약금 결제 단계로 이동',
+  },
+  c: {
+    badge: '다운로드 우선안 · 가장 낮은 진입장벽',
+    title: '이메일만 남기고\n9모 반영 무료본을 받아보세요.',
+    note: '다운로드 후 8·16·24부 단체 사전예약을 선택할 수 있습니다.',
+    button: '무료 문제지·해설지 받기',
+  },
+}
+
+function saveSeptemberLead(lead) {
+  const key = 'nabla-september-preorder-leads'
+  const current = JSON.parse(window.localStorage.getItem(key) || '[]')
+  window.localStorage.setItem(key, JSON.stringify([...current, lead]))
+}
+
+function DownloadBundle() {
+  return <div className="download-bundle">
+    <a href={SEPTEMBER_FILES.problems} download><FileText size={18} /><span><b>2회 문제지</b><small>13쪽 PDF</small></span><Download size={17} /></a>
+    <a href={SEPTEMBER_FILES.solutions} download><FileText size={18} /><span><b>정답 및 해설</b><small>18쪽 PDF</small></span><Download size={17} /></a>
+  </div>
+}
+
+function SeptemberPreview() {
+  return <div className="september-preview">
+    <figure><img src="/assets/september/problem-cover.jpg" alt="NABLA 9월 모평 반영 문제지 표지" /><figcaption>문제지 · 30문항</figcaption></figure>
+    <figure><img src="/assets/september/solution-cover.jpg" alt="NABLA 9월 모평 반영 해설지 표지" /><figcaption>정답 및 해설</figcaption></figure>
+    <div><span>2027학년도 수능 대비</span><h3>9월 모의평가 반영<br />수학 실전모의고사 2회</h3><p>공통과목 + 미적분 · 30문항<br />평가원 고난도 문항의 핵심 발상을<br />새로운 조건에서 다시 훈련합니다.</p></div>
+  </div>
+}
+
+function SeptemberCampaignPanel({ variant, onOrder }) {
+  const copy = VARIANT_COPY[variant]
+  const [form, setForm] = useState({ academy: '', email: '', name: '', phone: '', quantity: '8', agreed: false })
+  const [stage, setStage] = useState('form')
+  const [error, setError] = useState('')
+  const update = (key) => (event) => setForm((old) => ({ ...old, [key]: event.target.value }))
+
+  const submit = (event) => {
+    event.preventDefault()
+    if (!form.email.trim() || !/^\S+@\S+\.\S+$/.test(form.email)) return setError('자료를 받을 이메일을 정확히 입력해 주세요.')
+    if (variant !== 'c' && !form.academy.trim()) return setError('수량 확보를 위해 학원명을 입력해 주세요.')
+    if (!form.agreed) return setError('예약·자료 제공 조건과 개인정보 수집에 동의해 주세요.')
+    const lead = { ...form, variant, createdAt: new Date().toISOString(), id: `SEP-${Date.now().toString(36).toUpperCase()}` }
+    saveSeptemberLead(lead)
+    setError('')
+    setStage(variant === 'b' ? 'deposit' : 'complete')
+  }
+
+  if (stage === 'complete') return <section className="september-panel campaign-complete">
+    <div className="campaign-check"><Check size={28} /></div>
+    <span className="campaign-kicker">{variant === 'c' ? 'FREE SAMPLE READY' : `${form.quantity}부 수량 확보 완료`}</span>
+    <h2>{variant === 'c' ? '무료본이 준비되었습니다.' : '사전예약이 접수되었습니다.'}</h2>
+    <p>{variant === 'c' ? '아래에서 문제지와 해설지를 바로 내려받을 수 있습니다.' : `NABLA 실전모의고사 ${form.quantity}부를 임시 확보했습니다. 지금 무료본을 검토해 보세요.`}</p>
+    <DownloadBundle />
+    <div className="reservation-deadline"><ShieldCheck size={19} /><p><b>9월 12일까지 부담 없이 검토</b><span>{variant === 'c' ? '검토 후 단체 수량을 선택할 수 있습니다.' : '구매 미확정 시 결제 없이 자동 취소됩니다.'}</span></p></div>
+    {variant === 'c' && <button className="campaign-primary" onClick={() => onOrder(null)}>8·16·24부 사전예약하기 <ArrowRight size={17} /></button>}
+    <button className="campaign-link" onClick={() => setStage('form')}>입력 내용 다시 보기</button>
+  </section>
+
+  if (stage === 'deposit') return <section className="september-panel deposit-step">
+    <span className="campaign-kicker">5,000원 예약금 결제</span>
+    <h2>{form.quantity}부 수량 확보</h2>
+    <div className="deposit-summary"><div><span>예약 수량</span><b>{form.quantity}부</b></div><div><span>예약금</span><b>5,000원</b></div><div><span>최종 결제 차감</span><b>-5,000원</b></div></div>
+    <div className="deposit-safety"><LockKeyhole size={20} /><p><b>9월 12일까지 전액 환불</b><span>이 화면은 비교용 시안으로 실제 카드 청구는 발생하지 않습니다.</span></p></div>
+    <button className="campaign-primary" onClick={() => setStage('complete')}>결제 완료 화면 미리보기 <ArrowRight size={17} /></button>
+    <button className="campaign-link" onClick={() => setStage('form')}>예약 정보 수정</button>
+  </section>
+
+  return <section className="september-panel">
+    <div className="campaign-topline"><span>{copy.badge}</span><b>선착순 30개 학원 · 30% 할인</b></div>
+    <h2>{copy.title.split('\n').map((line, index) => <React.Fragment key={line}>{index > 0 && <br />}{line}</React.Fragment>)}</h2>
+    <p className="campaign-sub">9월 모의평가 출제 포인트를 반영한 수능 수학 실전모의고사 2회입니다.</p>
+    <SeptemberPreview />
+    <form className="campaign-form" onSubmit={submit}>
+      {variant !== 'c' && <>
+        <div className="quantity-choice"><span>확보할 수량</span>{['8', '16', '24'].map((quantity) => <button type="button" key={quantity} className={form.quantity === quantity ? 'selected' : ''} onClick={() => setForm((old) => ({ ...old, quantity }))}><b>{quantity}부</b><small>{formatWon(Number(quantity) * 2310)}원</small></button>)}</div>
+        <label className="campaign-field"><span>학원명 <b>*</b></span><input placeholder="NABLA 수학학원" value={form.academy} onChange={update('academy')} /></label>
+      </>}
+      <label className="campaign-field"><span>자료 받을 이메일 <b>*</b></span><input type="email" placeholder="name@example.com" value={form.email} onChange={update('email')} /></label>
+      {variant !== 'c' && <div className="campaign-two"><label className="campaign-field"><span>원장님 성함 <small>선택</small></span><input placeholder="홍길동" value={form.name} onChange={update('name')} /></label><label className="campaign-field"><span>연락처 <small>선택</small></span><input placeholder="010-0000-0000" value={form.phone} onChange={update('phone')} /></label></div>}
+      <label className="campaign-consent"><input type="checkbox" checked={form.agreed} onChange={(event) => setForm((old) => ({ ...old, agreed: event.target.checked }))} /><span>{variant === 'c' ? '무료 자료 제공을 위한 개인정보 수집·이용에 동의합니다.' : '사전예약 조건 및 개인정보 수집·이용에 동의합니다.'}</span></label>
+      {error && <p className="campaign-error">{error}</p>}
+      <button className="campaign-primary" type="submit">{copy.button} <ArrowRight size={17} /></button>
+      <p className="campaign-note">{copy.note}</p>
+    </form>
+  </section>
+}
+
+function SeptemberCampaign({ variant, onOrder }) {
+  return <main className="trial-page concept-system september-page">
+    <section className="trial-hero september-closed-hero">
+      <div className="trial-circles" aria-hidden="true"><i className="trial-circle tc-1" /><i className="trial-circle tc-2" /><i className="trial-circle tc-3" /><i className="trial-circle tc-4" /></div>
+      <div className="trial-top-logo"><Logo footer /></div>
+      <ConceptVisual />
+      <div className="trial-copy">
+        <span className="closed-proof">FREE TRIAL · CLOSED</span>
+        <h1>2027 수능 대비<br /><em>NABLA MOCK 0회차</em><br />무료 체험 마감</h1>
+        <p className="trial-description">준비된 선착순 1,800부가 모두 소진되어<br />0회차 학원 체험 신청을 종료했습니다.</p>
+        <p className="trial-limit">보내주신 관심에 진심으로 감사드립니다.</p>
+        <a className="mobile-campaign-jump" href="#september-campaign">9모 반영 무료본·사전예약 보기 <ArrowRight size={15} /></a>
+      </div>
+    </section>
+    <div className="campaign-side" id="september-campaign"><SeptemberCampaignPanel variant={variant} onOrder={onOrder} /></div>
+  </main>
+}
+
 function TrialClosed({ onOrder }) {
   return <div className="trial-closed">
     <div className="trial-closed-inner">
@@ -353,7 +477,8 @@ function RootApp() {
   useEffect(() => {
     const handlePopState = () => setPath(window.location.pathname)
     window.addEventListener('popstate', handlePopState)
-    document.title = path === '/order' ? 'NABLA MOCK 주문, 결제' : 'NABLA MOCK 0회차 무료 체험'
+    const labels = { '/a': '결제 없는 수량 확보', '/b': '예약금 사전예약', '/c': '무료 다운로드 우선' }
+    document.title = path === '/order' ? 'NABLA MOCK 주문, 결제' : `NABLA 9모 반영 사전예약 · ${labels[path] || labels['/a']}`
     return () => window.removeEventListener('popstate', handlePopState)
   }, [path])
 
@@ -363,7 +488,9 @@ function RootApp() {
     window.scrollTo(0, 0)
   }
 
-  return path === '/order' ? <App /> : <TrialLanding onApply={openOrder} />
+  if (path === '/order') return <App />
+  const variant = path === '/b' ? 'b' : path === '/c' ? 'c' : 'a'
+  return <SeptemberCampaign variant={variant} onOrder={openOrder} />
 }
 
 createRoot(document.getElementById('root')).render(<RootApp />)
