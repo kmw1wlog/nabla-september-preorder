@@ -26,6 +26,7 @@ export default async function handler(request, response) {
     })
     const result = await mailResponse.json().catch(() => ({}))
     if (!mailResponse.ok || !(result.success === true || result.success === 'true')) {
+      console.error('FormSubmit rejected preorder notification', mailResponse.status, result.message || 'unknown response')
       return response.status(502).json({ success: false, message: '메일 발송에 실패했습니다.' })
     }
     return response.status(200).json({ success: true })
