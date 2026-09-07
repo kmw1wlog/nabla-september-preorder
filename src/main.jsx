@@ -9,6 +9,7 @@ import {
 import { formatWon, getOrderTotals, SECTIONS, PRICE_TIERS } from './order.js'
 import { createTrialApplication, loadLatestTrialApplication, saveTrialApplication, validateTrialApplication } from './trial.js'
 import { sendTrialNotification } from './trial-notification.js'
+import { sendPreorderNotification } from './preorder-notification.js'
 import './styles.css'
 
 const Field = ({ label, required, className = '', ...props }) => (
@@ -265,17 +266,26 @@ function SeptemberCampaignPanel({ variant, onOrder }) {
   const [stage, setStage] = useState('form')
   const [error, setError] = useState('')
   const [previewOpen, setPreviewOpen] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
   const update = (key) => (event) => setForm((old) => ({ ...old, [key]: event.target.value }))
 
-  const submit = (event) => {
+  const submit = async (event) => {
     event.preventDefault()
     if (!form.email.trim() || !/^\S+@\S+\.\S+$/.test(form.email)) return setError('자료를 받을 이메일을 정확히 입력해 주세요.')
     if (variant !== 'c' && !form.academy.trim()) return setError('수량 확보를 위해 학원명을 입력해 주세요.')
     if (!form.agreed) return setError('예약·자료 제공 조건과 개인정보 수집에 동의해 주세요.')
     const lead = { ...form, variant, createdAt: new Date().toISOString(), id: `SEP-${Date.now().toString(36).toUpperCase()}` }
-    saveSeptemberLead(lead)
-    setError('')
-    setStage(variant === 'b' ? 'deposit' : 'complete')
+    setSubmitting(true)
+    try {
+      await sendPreorderNotification(lead)
+      saveSeptemberLead(lead)
+      setError('')
+      setStage(variant === 'b' ? 'deposit' : 'complete')
+    } catch (submissionError) {
+      setError(submissionError.message)
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   if (stage === 'complete') return <section className="september-panel campaign-complete">
@@ -313,7 +323,7 @@ function SeptemberCampaignPanel({ variant, onOrder }) {
       {variant !== 'c' && <div className="campaign-two"><label className="campaign-field"><span>원장님 성함 <small>선택</small></span><input placeholder="홍길동" value={form.name} onChange={update('name')} /></label><label className="campaign-field"><span>연락처 <small>선택</small></span><input placeholder="010-0000-0000" value={form.phone} onChange={update('phone')} /></label></div>}
       <label className="campaign-consent"><input type="checkbox" checked={form.agreed} onChange={(event) => setForm((old) => ({ ...old, agreed: event.target.checked }))} /><span>{variant === 'c' ? '무료 자료 제공을 위한 개인정보 수집·이용에 동의합니다.' : '사전예약 조건 및 개인정보 수집·이용에 동의합니다.'}</span></label>
       {error && <p className="campaign-error">{error}</p>}
-      <button className="campaign-primary" type="submit">{copy.button} <ArrowRight size={17} /></button>
+      <button className="campaign-primary" type="submit" disabled={submitting}>{submitting ? '사전예약을 접수하는 중...' : <>{copy.button} <ArrowRight size={17} /></>}</button>
       {variant === 'a' && <div className="early-reservation-benefit"><Sparkles size={18} /><p><b>지금 사전예약 시 선착순 30부로</b><span><strong>9월 10일에 무료 모의고사 1부</strong>를 추가로 보내드립니다.</span></p></div>}
       <p className="campaign-note">{copy.note}</p>
     </form>
