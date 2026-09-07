@@ -697,6 +697,39 @@ input:focus, textarea:focus { border-color: var(--violet); box-shadow: 0 0 0 3px
 .september-preview > div span { color: #1268dd; font-size: 10px; font-weight: 800; }
 .september-preview h3 { margin: 7px 0 10px; font-size: 18px; line-height: 1.35; }
 .september-preview p { margin: 0; color: #747b87; font-size: 11px; line-height: 1.65; }
+.question-preview-strip {
+  display: grid;
+  grid-template-columns: 1fr 240px auto;
+  align-items: center;
+  gap: 15px;
+  margin-top: 12px;
+  padding: 13px 15px;
+  border: 1px solid #dce4ef;
+  border-radius: 14px;
+  background: #eef5ff;
+}
+.question-preview-strip > div:first-child span,
+.question-preview-strip > div:first-child b,
+.question-preview-strip > div:first-child small { display: block; }
+.question-preview-strip > div:first-child span { color: #1268dd; font-size: 9px; font-weight: 850; letter-spacing: .08em; }
+.question-preview-strip > div:first-child b { margin-top: 4px; color: #13233a; font-size: 12px; }
+.question-preview-strip > div:first-child small { margin-top: 3px; color: #708096; font-size: 9px; }
+.question-preview-thumbs { display: flex; gap: 6px; }
+.question-preview-thumbs button { position: relative; width: 74px; height: 57px; padding: 0; overflow: hidden; border: 1px solid #cbd6e4; border-radius: 7px; background: #fff; }
+.question-preview-thumbs img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.question-preview-thumbs span { position: absolute; inset: auto 3px 3px; padding: 2px 3px; border-radius: 3px; color: #fff; background: rgba(5,20,40,.82); font-size: 7px; }
+.question-preview-open { display: inline-flex; align-items: center; justify-content: center; gap: 5px; min-height: 38px; padding: 0 12px; border: 1px solid #1268dd; border-radius: 8px; color: #0d5dc5; background: #fff; font-size: 10px; font-weight: 800; white-space: nowrap; }
+.question-preview-modal { position: fixed; z-index: 1000; inset: 0; overflow: auto; padding: 24px; background: rgba(4,12,24,.94); }
+.question-preview-modal-head { position: sticky; z-index: 2; top: 0; width: min(1100px,100%); display: flex; align-items: center; justify-content: space-between; margin: 0 auto 18px; padding: 14px 16px; border: 1px solid rgba(255,255,255,.12); border-radius: 12px; color: #fff; background: rgba(8,24,45,.96); }
+.question-preview-modal-head b,
+.question-preview-modal-head span { display: block; }
+.question-preview-modal-head b { font-size: 14px; }
+.question-preview-modal-head span { margin-top: 3px; color: #91a3bb; font-size: 10px; }
+.question-preview-modal-head button { width: 38px; height: 38px; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.2); border-radius: 50%; color: #fff; background: transparent; }
+.question-preview-pages { width: min(1100px,100%); display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin: 0 auto; }
+.question-preview-pages figure { margin: 0; overflow: hidden; border-radius: 10px; background: #fff; }
+.question-preview-pages figcaption { padding: 10px 12px; color: #fff; background: #102744; font-size: 11px; font-weight: 750; }
+.question-preview-pages img { width: 100%; height: auto; display: block; }
 .campaign-form { margin-top: 20px; padding: 20px; border: 1px solid #e1e5eb; border-radius: 18px; background: #fff; }
 .quantity-choice { display: grid; grid-template-columns: 90px repeat(3,1fr); gap: 8px; align-items: stretch; margin-bottom: 14px; }
 .quantity-choice > span { align-self: center; color: #333b47; font-size: 12px; font-weight: 750; }
@@ -766,6 +799,13 @@ input:focus, textarea:focus { border-color: var(--violet); box-shadow: 0 0 0 3px
   .september-preview > div { padding-left: 1px; }
   .september-preview h3 { font-size: 14px; }
   .september-preview p { display: none; }
+  .question-preview-strip { grid-template-columns: 1fr; gap: 10px; }
+  .question-preview-thumbs { width: 100%; }
+  .question-preview-thumbs button { width: 33.333%; height: 76px; }
+  .question-preview-open { width: 100%; }
+  .question-preview-modal { padding: 10px; }
+  .question-preview-modal-head { margin-bottom: 10px; }
+  .question-preview-pages { grid-template-columns: 1fr; gap: 12px; }
   .campaign-form { padding: 15px; }
   .quantity-choice { grid-template-columns: repeat(3,1fr); }
   .quantity-choice > span { grid-column: 1 / -1; }

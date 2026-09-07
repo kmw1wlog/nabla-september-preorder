@@ -239,11 +239,32 @@ function SeptemberQuestionVisual() {
   </div>
 }
 
+const SEPTEMBER_SAMPLE_PAGES = [
+  { src: '/assets/september/question-dense-08.jpg', label: '공통 후반부', alt: 'NABLA 무료 모의고사 1회차 공통과목 고난도 문항' },
+  { src: '/assets/september/question-dense-09.jpg', label: '공통 고난도', alt: 'NABLA 무료 모의고사 1회차 공통과목 후반 문항' },
+  { src: '/assets/september/question-dense-12.jpg', label: '미적분 고난도', alt: 'NABLA 무료 모의고사 1회차 미적분 고난도 문항' },
+]
+
+function QuestionPreview({ open, onOpen, onClose }) {
+  return <>
+    <section className="question-preview-strip" aria-label="고난도 문항 미리보기">
+      <div><span>문항 미리보기</span><b>고난도 문항 3개를 먼저 확인하세요.</b><small>별도 PDF 앱 없이 모바일에서도 바로 볼 수 있습니다.</small></div>
+      <div className="question-preview-thumbs">{SEPTEMBER_SAMPLE_PAGES.map((page) => <button type="button" key={page.src} onClick={onOpen} aria-label={`${page.label} 크게 보기`}><img src={page.src} alt={page.alt} /><span>{page.label}</span></button>)}</div>
+      <button className="question-preview-open" type="button" onClick={onOpen}>고난도 문항 크게 보기 <ArrowRight size={15} /></button>
+    </section>
+    {open && <div className="question-preview-modal" role="dialog" aria-modal="true" aria-label="NABLA 고난도 문항 미리보기">
+      <div className="question-preview-modal-head"><div><b>무료 모의고사 1회차</b><span>고난도 문항 미리보기 · 공통 + 미적분</span></div><button type="button" onClick={onClose} aria-label="미리보기 닫기"><X size={22} /></button></div>
+      <div className="question-preview-pages">{SEPTEMBER_SAMPLE_PAGES.map((page) => <figure key={page.src}><figcaption>{page.label}</figcaption><img src={page.src} alt={page.alt} /></figure>)}</div>
+    </div>}
+  </>
+}
+
 function SeptemberCampaignPanel({ variant, onOrder }) {
   const copy = VARIANT_COPY[variant]
   const [form, setForm] = useState({ academy: '', email: '', name: '', phone: '', quantity: '8', agreed: false })
   const [stage, setStage] = useState('form')
   const [error, setError] = useState('')
+  const [previewOpen, setPreviewOpen] = useState(false)
   const update = (key) => (event) => setForm((old) => ({ ...old, [key]: event.target.value }))
 
   const submit = (event) => {
@@ -282,6 +303,7 @@ function SeptemberCampaignPanel({ variant, onOrder }) {
     <h2>{copy.title.split('\n').map((line, index) => <React.Fragment key={line}>{index > 0 && <br />}{line}</React.Fragment>)}</h2>
     <p className="campaign-sub">9월 모의평가 출제 포인트를 반영한 수능 수학 실전모의고사 1회차입니다.</p>
     <SeptemberPreview />
+    <QuestionPreview open={previewOpen} onOpen={() => setPreviewOpen(true)} onClose={() => setPreviewOpen(false)} />
     <form className="campaign-form" onSubmit={submit}>
       {variant !== 'c' && <>
         <div className="quantity-choice"><span>확보할 수량</span>{['8', '16', '24'].map((quantity) => <button type="button" key={quantity} className={form.quantity === quantity ? 'selected' : ''} onClick={() => setForm((old) => ({ ...old, quantity }))}><b>{quantity}부</b><small>{formatWon(Number(quantity) * 2310)}원</small></button>)}</div>
@@ -305,10 +327,10 @@ function SeptemberCampaign({ variant, onOrder }) {
       <div className="trial-top-logo"><Logo footer /></div>
       <SeptemberQuestionVisual />
       <div className="trial-copy">
-        <span className="closed-proof">FREE TRIAL · CLOSED</span>
-        <h1>2027 수능 대비<br /><em>NABLA MOCK 0회차</em><br />무료 체험 마감</h1>
-        <p className="trial-description">준비된 선착순 1,800부가 모두 소진되어<br />0회차 학원 체험 신청을 종료했습니다.</p>
-        <p className="trial-limit">보내주신 관심에 진심으로 감사드립니다.</p>
+        <span className="closed-proof">SEPTEMBER MOCK · FREE PREVIEW</span>
+        <h1>2027 수능 대비<br /><em>9월 모평 반영</em><br />무료 1회차 공개</h1>
+        <p className="trial-description">평가원 고난도 문항의 핵심 발상을<br />새로운 조건에서 다시 훈련하도록 구성했습니다.</p>
+        <p className="trial-limit">문항을 먼저 확인한 뒤 필요한 수량만 예약하세요.</p>
         <a className="mobile-campaign-jump" href="#september-campaign">9모 반영 무료본·사전예약 보기 <ArrowRight size={15} /></a>
       </div>
     </section>
