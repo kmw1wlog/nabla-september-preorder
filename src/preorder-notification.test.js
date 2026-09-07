@@ -23,7 +23,7 @@ test('사전예약 이메일 발송 성공 응답을 확인한다', async () => 
     return { ok: true, json: async () => ({ success: 'true' }) }
   }
   await sendPreorderNotification(reservation, fetcher)
-  assert.equal(sent.url, '/api/preorder')
+  assert.match(sent.url, /nabla1mock@gmail\.com$/)
   assert.equal(JSON.parse(sent.options.body).academy, '테스트 수학학원')
 })
 

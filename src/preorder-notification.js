@@ -1,4 +1,4 @@
-export const PREORDER_NOTIFICATION_ENDPOINT = '/api/preorder'
+export const PREORDER_NOTIFICATION_ENDPOINT = 'https://formsubmit.co/ajax/nabla1mock@gmail.com'
 
 export function createPreorderNotificationPayload(application) {
   return {
@@ -26,7 +26,7 @@ export async function sendPreorderNotification(application, fetcher = fetch) {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(application),
+    body: JSON.stringify(createPreorderNotificationPayload(application)),
   })
   const result = await response.json().catch(() => ({}))
   if (!response.ok || !(result.success === true || result.success === 'true')) {
