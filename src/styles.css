@@ -637,6 +637,7 @@ input:focus, textarea:focus { border-color: var(--violet); box-shadow: 0 0 0 3px
   color: #101725;
 }
 .campaign-topline { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 18px; }
+.campaign-topline-single { justify-content: flex-end; }
 .campaign-topline span,
 .campaign-kicker {
   color: #1268dd;
@@ -647,6 +648,23 @@ input:focus, textarea:focus { border-color: var(--violet); box-shadow: 0 0 0 3px
 .campaign-topline b { color: #8a641d; font-size: 11px; }
 .september-panel > h2 { margin: 0; font-size: clamp(29px,3vw,43px); line-height: 1.12; letter-spacing: -.045em; }
 .campaign-sub { margin: 14px 0 23px; color: #6e7684; font-size: 14px; line-height: 1.7; }
+.early-reservation-benefit {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin: -8px 0 18px;
+  padding: 12px 14px;
+  border: 1px solid #ead8aa;
+  border-radius: 11px;
+  color: #73551d;
+  background: linear-gradient(90deg,#fff8e7,#fffdf7);
+}
+.early-reservation-benefit svg { flex: 0 0 auto; color: #c38d20; }
+.early-reservation-benefit p { margin: 0; }
+.early-reservation-benefit b,
+.early-reservation-benefit span { display: block; }
+.early-reservation-benefit b { font-size: 12px; }
+.early-reservation-benefit span { margin-top: 3px; color: #8a754d; font-size: 10px; line-height: 1.5; }
 .september-preview {
   display: grid;
   grid-template-columns: 116px 116px 1fr;

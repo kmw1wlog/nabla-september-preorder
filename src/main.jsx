@@ -191,9 +191,9 @@ const SEPTEMBER_FILES = {
 
 const VARIANT_COPY = {
   a: {
-    badge: '추천안 · 결제 없는 수량 확보',
+    badge: '',
     title: '필요한 수량만 먼저 확보하고\n무료본으로 판단하세요.',
-    note: '지금 결제되지 않습니다. 9월 12일까지 구매를 확정하지 않으면 예약은 자동 취소됩니다.',
+    note: '지금 결제되지 않습니다. 9월 10일까지 예약하면 검토용 모의고사 1부를 추가로 보내드리며, 9월 12일까지 구매 미확정 시 예약은 자동 취소됩니다.',
     button: '사전예약하고 무료본 바로 받기',
   },
   b: {
@@ -253,9 +253,9 @@ function SeptemberCampaignPanel({ variant, onOrder }) {
     <div className="campaign-check"><Check size={28} /></div>
     <span className="campaign-kicker">{variant === 'c' ? 'FREE SAMPLE READY' : `${form.quantity}부 수량 확보 완료`}</span>
     <h2>{variant === 'c' ? '무료본이 준비되었습니다.' : '사전예약이 접수되었습니다.'}</h2>
-    <p>{variant === 'c' ? '아래에서 문제지와 해설지를 바로 내려받을 수 있습니다.' : `NABLA 실전모의고사 ${form.quantity}부를 임시 확보했습니다. 지금 무료본을 검토해 보세요.`}</p>
+    <p>{variant === 'c' ? '아래에서 문제지와 해설지를 바로 내려받을 수 있습니다.' : `NABLA 실전모의고사 ${form.quantity}부를 임시 확보했습니다. 지금 1부를 바로 받고, 9월 10일까지 예약 혜택으로 추가 1부도 받아보세요.`}</p>
     <DownloadBundle />
-    <div className="reservation-deadline"><ShieldCheck size={19} /><p><b>9월 12일까지 부담 없이 검토</b><span>{variant === 'c' ? '검토 후 단체 수량을 선택할 수 있습니다.' : '구매 미확정 시 결제 없이 자동 취소됩니다.'}</span></p></div>
+    <div className="reservation-deadline"><ShieldCheck size={19} /><p><b>{variant === 'a' ? '무료 모의고사 총 2부 제공' : '9월 12일까지 부담 없이 검토'}</b><span>{variant === 'a' ? '예약 즉시 1부 다운로드 · 9월 10일까지 예약 시 추가 1부 제공' : variant === 'c' ? '검토 후 단체 수량을 선택할 수 있습니다.' : '구매 미확정 시 결제 없이 자동 취소됩니다.'}</span></p></div>
     {variant === 'c' && <button className="campaign-primary" onClick={() => onOrder(null)}>8·16·24부 사전예약하기 <ArrowRight size={17} /></button>}
     <button className="campaign-link" onClick={() => setStage('form')}>입력 내용 다시 보기</button>
   </section>
@@ -270,9 +270,10 @@ function SeptemberCampaignPanel({ variant, onOrder }) {
   </section>
 
   return <section className="september-panel">
-    <div className="campaign-topline"><span>{copy.badge}</span><b>선착순 30개 학원 · 30% 할인</b></div>
+    <div className={`campaign-topline ${copy.badge ? '' : 'campaign-topline-single'}`}>{copy.badge && <span>{copy.badge}</span>}<b>선착순 30개 학원 · 30% 할인</b></div>
     <h2>{copy.title.split('\n').map((line, index) => <React.Fragment key={line}>{index > 0 && <br />}{line}</React.Fragment>)}</h2>
     <p className="campaign-sub">9월 모의평가 출제 포인트를 반영한 수능 수학 실전모의고사 2회입니다.</p>
+    {variant === 'a' && <div className="early-reservation-benefit"><Sparkles size={18} /><p><b>9월 10일까지 예약하면 무료 모의고사 총 2부</b><span>예약 즉시 1부를 다운로드하고, 검토용 모의고사 1부를 추가로 보내드립니다.</span></p></div>}
     <SeptemberPreview />
     <form className="campaign-form" onSubmit={submit}>
       {variant !== 'c' && <>
@@ -477,7 +478,7 @@ function RootApp() {
   useEffect(() => {
     const handlePopState = () => setPath(window.location.pathname)
     window.addEventListener('popstate', handlePopState)
-    const labels = { '/a': '결제 없는 수량 확보', '/b': '예약금 사전예약', '/c': '무료 다운로드 우선' }
+    const labels = { '/a': '무료본·사전예약', '/b': '예약금 사전예약', '/c': '무료 다운로드 우선' }
     document.title = path === '/order' ? 'NABLA MOCK 주문, 결제' : `NABLA 9모 반영 사전예약 · ${labels[path] || labels['/a']}`
     return () => window.removeEventListener('popstate', handlePopState)
   }, [path])
