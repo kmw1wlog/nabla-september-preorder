@@ -225,17 +225,17 @@ function DownloadBundle() {
 
 function SeptemberPreview() {
   return <div className="september-preview">
-    <figure><img src="/assets/september/question-page-01.jpg" alt="NABLA 무료 모의고사 1회차 문항 미리보기" /><figcaption>1회차 · 30문항</figcaption></figure>
-    <figure><img src="/assets/september/question-page-10.jpg" alt="NABLA 무료 모의고사 1회차 미적분 문항 미리보기" /><figcaption>공통 + 미적분</figcaption></figure>
+    <figure><img src="/assets/september/problem-cover.jpg" alt="NABLA 9월 모평 반영 문제지 표지" /><figcaption>1회차 · 30문항</figcaption></figure>
+    <figure><img src="/assets/september/solution-cover.jpg" alt="NABLA 9월 모평 반영 해설지 표지" /><figcaption>문제지 + 해설지</figcaption></figure>
     <div><span>2027학년도 수능 대비</span><h3>9월 모의평가 반영<br />수학 실전모의고사 1회차</h3><p>공통과목 + 미적분 · 30문항<br />평가원 고난도 문항의 핵심 발상을<br />새로운 조건에서 다시 훈련합니다.</p></div>
   </div>
 }
 
 function SeptemberQuestionVisual() {
   return <div className="concept-visual question-visual" aria-label="NABLA 모의고사 실제 문항 미리보기">
-    <img className="question-sheet question-sheet-one" src="/assets/september/question-page-01.jpg" alt="NABLA 모의고사 1회차 공통과목 문항" />
-    <img className="question-sheet question-sheet-two" src="/assets/september/question-page-05.jpg" alt="NABLA 모의고사 1회차 고난도 문항" />
-    <img className="question-sheet question-sheet-three" src="/assets/september/question-page-10.jpg" alt="NABLA 모의고사 1회차 미적분 문항" />
+    <img className="question-sheet question-sheet-one" src="/assets/september/question-dense-08.jpg" alt="NABLA 모의고사 1회차 공통과목 고난도 문항" />
+    <img className="question-sheet question-sheet-two" src="/assets/september/question-dense-09.jpg" alt="NABLA 모의고사 1회차 공통과목 고난도 문항" />
+    <img className="question-sheet question-sheet-three" src="/assets/september/question-dense-12.jpg" alt="NABLA 모의고사 1회차 미적분 고난도 문항" />
   </div>
 }
 
@@ -290,9 +290,9 @@ function SeptemberCampaignPanel({ variant, onOrder }) {
       <label className="campaign-field"><span>자료 받을 이메일 <b>*</b></span><input type="email" placeholder="name@example.com" value={form.email} onChange={update('email')} /></label>
       {variant !== 'c' && <div className="campaign-two"><label className="campaign-field"><span>원장님 성함 <small>선택</small></span><input placeholder="홍길동" value={form.name} onChange={update('name')} /></label><label className="campaign-field"><span>연락처 <small>선택</small></span><input placeholder="010-0000-0000" value={form.phone} onChange={update('phone')} /></label></div>}
       <label className="campaign-consent"><input type="checkbox" checked={form.agreed} onChange={(event) => setForm((old) => ({ ...old, agreed: event.target.checked }))} /><span>{variant === 'c' ? '무료 자료 제공을 위한 개인정보 수집·이용에 동의합니다.' : '사전예약 조건 및 개인정보 수집·이용에 동의합니다.'}</span></label>
-      {variant === 'a' && <div className="early-reservation-benefit"><Sparkles size={18} /><p><b>지금 사전예약 시 선착순 30부로</b><span><strong>9월 10일에 무료 모의고사 1부</strong>를 추가로 보내드립니다.</span></p></div>}
       {error && <p className="campaign-error">{error}</p>}
       <button className="campaign-primary" type="submit">{copy.button} <ArrowRight size={17} /></button>
+      {variant === 'a' && <div className="early-reservation-benefit"><Sparkles size={18} /><p><b>지금 사전예약 시 선착순 30부로</b><span><strong>9월 10일에 무료 모의고사 1부</strong>를 추가로 보내드립니다.</span></p></div>}
       <p className="campaign-note">{copy.note}</p>
     </form>
   </section>
