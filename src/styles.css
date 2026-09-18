@@ -833,3 +833,34 @@ input:focus, textarea:focus { border-color: var(--violet); box-shadow: 0 0 0 3px
   .question-sheet-two { top: 58px; right: 35%; }
   .question-sheet-three { top: 88px; right: 20%; }
 }
+.bank-page { min-height: 100vh; background: #f4f7fb; color: #13243c; padding: 0 24px 64px; }
+.bank-header { max-width: 960px; margin: auto; display: flex; justify-content: space-between; align-items: center; min-height: 80px; gap: 16px; }
+.bank-header a { color: #153865; display: flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 700; }
+.bank-header a:first-child { font-size: 24px; }
+.bank-header a:last-child { font-size: 13px; }
+.bank-intro { max-width: 960px; margin: 40px auto; }
+.bank-intro > span { color: #2765ad; font-size: 12px; letter-spacing: 2px; font-weight: 700; }
+.bank-intro h1 { margin: 16px 0; font-size: clamp(34px, 6vw, 54px); line-height: 1.2; }
+.bank-intro p { color: #64748b; line-height: 1.6; }
+.bank-products { max-width: 960px; margin: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.bank-product { text-align: left; padding: 32px; background: white; border: 2px solid #dbe3ef; border-radius: 18px; color: #13243c; cursor: pointer; }
+.bank-product.selected { border-color: #2163c4; box-shadow: 0 10px 30px #143e7010; }
+.bank-product > span, .bank-product small { color: #64748b; font-size: 13px; }
+.bank-product h2 { font-size: 32px; margin: 12px 0 24px; }
+.bank-product p { color: #64748b; font-size: 14px; }
+.bank-product strong { display: block; margin: 6px 0 14px; font-size: 36px; }
+.bank-product b { display: block; color: #2163c4; font-size: 13px; }
+.bank-product em { display: flex; align-items: center; gap: 8px; font-style: normal; margin-top: 24px; font-size: 14px; }
+.bank-reservation { max-width: 960px; margin: 28px auto 0; padding: 32px; border-radius: 18px; background: white; border: 1px solid #dbe3ef; }
+.bank-reservation h2 { font-size: 22px; margin: 0 0 20px; }
+.bank-summary { display: flex; justify-content: space-between; gap: 16px; padding: 18px; background: #edf4ff; border-radius: 10px; }
+.bank-complete { text-align: center; padding: 24px 0; }
+.bank-complete svg { color: #2163c4; margin-bottom: 16px; }
+.bank-complete p { line-height: 1.7; color: #64748b; }
+@media (max-width: 600px) {
+  .bank-page { padding: 0 16px 40px; }
+  .bank-intro { margin: 24px auto; }
+  .bank-products { grid-template-columns: 1fr; gap: 14px; }
+  .bank-product, .bank-reservation { padding: 24px; }
+  .bank-product strong { font-size: 32px; }
+}

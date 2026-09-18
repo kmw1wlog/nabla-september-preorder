@@ -2,20 +2,21 @@ export const PREORDER_NOTIFICATION_ENDPOINT = 'https://formsubmit.co/ajax/nabla1
 
 export function createPreorderNotificationPayload(application) {
   return {
-    _subject: `[NABLA 사전예약] ${application.academy} · ${application.quantity}부`,
+    _subject: `[NABLA 사전예약] ${application.academy} · ${application.product || `${application.quantity}부`}`,
     _template: 'table',
     _replyto: application.email,
     _honey: '',
     reservation_id: application.id,
     academy: application.academy,
-    quantity: `${application.quantity}부`,
+    quantity: application.product || `${application.quantity}부`,
+    ...(application.product ? { product: application.product, preorder_price: `${application.price.toLocaleString('ko-KR')}원` } : {}),
     email: application.email,
     director: application.name || '미입력',
     phone: application.phone || '미입력',
     campaign: application.variant === 'a' ? '결제 없는 수량 확보' : application.variant,
     reservation_status: '사전예약 접수',
     submitted_at: application.createdAt,
-    source: 'NABLA 9모 반영 사전예약 홈페이지',
+    source: application.product ? 'NABLA 문제은행 사전예약 페이지' : 'NABLA 9모 반영 사전예약 홈페이지',
   }
 }
 

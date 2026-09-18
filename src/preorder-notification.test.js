@@ -8,6 +8,16 @@ const reservation = {
   variant: 'a', createdAt: '2026-09-07T07:30:00.000Z',
 }
 
+test('문제은행 예약은 상품명과 사전예약가를 이메일에 포함한다', () => {
+  for (const [product, price] of [['1,000제', 690000], ['2,000제', 990000]]) {
+    const payload = createPreorderNotificationPayload({ ...reservation, variant: 'question-bank', product, price })
+    assert.equal(payload.product, product)
+    assert.equal(payload.quantity, product)
+    assert.equal(payload.preorder_price, `${price.toLocaleString('ko-KR')}원`)
+    assert.match(payload.source, /문제은행/)
+  }
+})
+
 test('사전예약 신청 내용을 운영자 이메일용 표로 변환한다', () => {
   const payload = createPreorderNotificationPayload(reservation)
   assert.equal(payload._subject, '[NABLA 사전예약] 테스트 수학학원 · 8부')

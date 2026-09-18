@@ -11,6 +11,7 @@ import { createTrialApplication, loadLatestTrialApplication, saveTrialApplicatio
 import { sendTrialNotification } from './trial-notification.js'
 import { sendPreorderNotification } from './preorder-notification.js'
 import './styles.css'
+import QuestionBank from './question-bank.jsx'
 
 const Field = ({ label, required, className = '', ...props }) => (
   <label className={`field ${className}`}>
@@ -316,6 +317,7 @@ function SeptemberCampaignPanel({ variant, onOrder }) {
     <SeptemberPreview />
     <QuestionPreview open={previewOpen} onOpen={() => setPreviewOpen(true)} onClose={() => setPreviewOpen(false)} />
     <a className="campaign-primary" href="/order">학원 단체 주문·구매 페이지로 이동 <ArrowRight size={17} /></a>
+    <a className="campaign-link" href="/question-bank">문제은행 1,000제·2,000제 사전예약 <ArrowRight size={15} /></a>
     <form className="campaign-form" onSubmit={submit}>
       {variant !== 'c' && <>
         <div className="quantity-choice"><span>확보할 수량</span>{['8', '16', '24'].map((quantity) => <button type="button" key={quantity} className={form.quantity === quantity ? 'selected' : ''} onClick={() => setForm((old) => ({ ...old, quantity }))}><b>{quantity}부</b><small>{formatWon(Number(quantity) * 2310)}원</small></button>)}</div>
@@ -521,7 +523,7 @@ function RootApp() {
     const handlePopState = () => setPath(window.location.pathname)
     window.addEventListener('popstate', handlePopState)
     const labels = { '/a': '무료본·사전예약', '/b': '예약금 사전예약', '/c': '무료 다운로드 우선' }
-    document.title = path === '/order' ? 'NABLA MOCK 주문, 결제' : `NABLA 9모 반영 사전예약 · ${labels[path] || labels['/a']}`
+    document.title = path === '/question-bank' ? 'NABLA 문제은행 사전예약' : path === '/order' ? 'NABLA MOCK 주문, 결제' : `NABLA 9모 반영 사전예약 · ${labels[path] || labels['/a']}`
     return () => window.removeEventListener('popstate', handlePopState)
   }, [path])
 
@@ -532,6 +534,7 @@ function RootApp() {
   }
 
   if (path === '/order') return <App />
+  if (path === '/question-bank') return <QuestionBank />
   const variant = path === '/b' ? 'b' : path === '/c' ? 'c' : 'a'
   return <SeptemberCampaign variant={variant} onOrder={openOrder} />
 }
