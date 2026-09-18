@@ -294,6 +294,7 @@ function SeptemberCampaignPanel({ variant, onOrder }) {
     <h2>{variant === 'c' ? '무료본이 준비되었습니다.' : '사전예약이 접수되었습니다.'}</h2>
     <p>{variant === 'c' ? '아래에서 문제지와 해설지를 바로 내려받을 수 있습니다.' : `NABLA 실전모의고사 ${form.quantity}부를 임시 확보했습니다. 지금 무료 모의고사 1회차를 바로 내려받아 검토해 보세요.`}</p>
     <DownloadBundle />
+    <a className="campaign-primary" href="/order">학원 단체 주문·구매하기 <ArrowRight size={17} /></a>
     <div className="reservation-deadline"><ShieldCheck size={19} /><p><b>{variant === 'a' ? '무료 모의고사 1회차 다운로드' : '9월 12일까지 부담 없이 검토'}</b><span>{variant === 'a' ? '9월 10일에 검토용 모의고사 1부를 추가로 보내드립니다.' : variant === 'c' ? '검토 후 단체 수량을 선택할 수 있습니다.' : '구매 미확정 시 결제 없이 자동 취소됩니다.'}</span></p></div>
     {variant === 'c' && <button className="campaign-primary" onClick={() => onOrder(null)}>8·16·24부 사전예약하기 <ArrowRight size={17} /></button>}
     <button className="campaign-link" onClick={() => setStage('form')}>입력 내용 다시 보기</button>
@@ -314,6 +315,7 @@ function SeptemberCampaignPanel({ variant, onOrder }) {
     <p className="campaign-sub">9월 모의평가 출제 포인트를 반영한 수능 수학 실전모의고사 1회차입니다.</p>
     <SeptemberPreview />
     <QuestionPreview open={previewOpen} onOpen={() => setPreviewOpen(true)} onClose={() => setPreviewOpen(false)} />
+    <a className="campaign-primary" href="/order">학원 단체 주문·구매 페이지로 이동 <ArrowRight size={17} /></a>
     <form className="campaign-form" onSubmit={submit}>
       {variant !== 'c' && <>
         <div className="quantity-choice"><span>확보할 수량</span>{['8', '16', '24'].map((quantity) => <button type="button" key={quantity} className={form.quantity === quantity ? 'selected' : ''} onClick={() => setForm((old) => ({ ...old, quantity }))}><b>{quantity}부</b><small>{formatWon(Number(quantity) * 2310)}원</small></button>)}</div>
